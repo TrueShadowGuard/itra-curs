@@ -1,4 +1,5 @@
 export default async function createProject(body, Authorization) {
+    console.log('Create project body: ', body)
     try {
         const response = await fetch(`/api/profile/create-project`, {
             method: 'POST',

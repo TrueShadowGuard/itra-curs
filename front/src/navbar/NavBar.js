@@ -2,23 +2,34 @@ import React, {useContext} from 'react';
 import {Button, FormControl, Nav, Navbar} from "react-bootstrap";
 import {Form} from "react-bootstrap";
 import {NavLink} from "react-router-dom";
-import Avatar from "./Avatar";
+import ProfileLink from "./ProfileLink";
 import {Auth} from '../App';
+import SearchField from "./SearchField";
 
 const NavBar = () => {
+    const {auth} = useContext(Auth)
 
     return (
-        <Navbar bg="primary" variant="dark">
-            <Navbar.Brand href="#home">People</Navbar.Brand>
-            <Nav className="mr-auto">
-                <NavLink exact to="/" className="nav-link">Home</NavLink>
-                <NavLink to="/about" className="nav-link">About</NavLink>
-            </Nav>
-            <Form inline>
-                <FormControl type="text" placeholder="Search" className="mr-sm-2"/>
-                <Button variant="outline-light">Search</Button>
-                <Avatar/>
-            </Form>
+        <Navbar bg="primary" expand="lg">
+            <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+            <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="mr-auto">
+                    <NavLink exact to="/"
+                             className="nav-link"
+                             activeStyle={{textDecoration: 'underline', color: '#eee'}}>Home</NavLink>
+                    <NavLink exact to="/about"
+                             className="nav-link"
+                             activeStyle={{textDecoration: 'underline', color: '#eee'}}>About</NavLink>
+                    {auth ? <ProfileLink/> :
+                        <NavLink to="/login"
+                            className="nav-link"
+                            activeStyle={{textDecoration: 'underline', color: '#eee'}}>Login</NavLink>
+                    }
+                </Nav>
+                <Form inline>
+                    <SearchField data={['11122121', '21312112', '11212121', '1212212']}/>
+                </Form>
+            </Navbar.Collapse>
         </Navbar>
     );
 };

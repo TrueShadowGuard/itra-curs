@@ -39,14 +39,15 @@ const LoginPage = () => {
                         <Field
                             type="email"
                             name="email"
-                            placeholder={'Email'}
+                            placeholder='Email'
                             className="form-control"/>
                         <Field
                             type="password"
                             name="password"
-                            placeholder={'Password'}
+                            placeholder='Password'
                             className="form-control"
                         />
+                        <ErrorMessage name="name" component="div"/>
                         <ErrorMessage name="email" component="div"/>
                         <ErrorMessage name="password" component="div"/>
                         <Button type="submit" className={s.submit} disabled={isSubmitting}>Login</Button>

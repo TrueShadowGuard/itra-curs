@@ -20,17 +20,18 @@ class authController {
             if (!errors.isEmpty()) {
                 return res.status(400).json({message: "Ошибка при регистрации", errors})
             }
-            let {email, password} = req.body;
+            let {email, password, name} = req.body;
             const candidate = await User.findOne({email})
             if (candidate) {
-                return res.status(400).json({message: "Пользователь с таким именем уже существует"})
+                return res.status(400).json({message: "Пользователь с таким email уже существует"})
             }
             const hashPassword = bcrypt.hashSync(password, 7);
             const user = new User({
+                name,
                 email,
                 password: hashPassword,
-                bonuses: [mongoose.Types.ObjectId('608ad5c723bc861e28a7f463')],
-                projects: [mongoose.Types.ObjectId('608ae4143726a90a58cea052')],
+                bonuses: [],
+                projects: [],
                 id: await getNextSeqVal('users'),
             })
             await user.save()

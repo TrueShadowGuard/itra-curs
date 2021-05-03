@@ -10,6 +10,7 @@ const ProfileProjects = ({projects}) => {
     console.log('table', table,'sortType', sortType)
     return (
         <div>
+            <h1>Projects:</h1>
             <Row className="mb-3">
                 <Col lg={2}><input value={query}
                                    onChange={e => setQuery(e.target.value)}
@@ -20,15 +21,15 @@ const ProfileProjects = ({projects}) => {
             <Table striped bordered>
                 <thead>
                 <tr>
-                    <th style={{cursor: 'pointer'}} onClick={sort}>Project name</th>
+                    <th style={{cursor: 'pointer'}} onClick={sort.bind(null, 'name')}>Project name</th>
                     <th>Progress</th>
                 </tr>
                 </thead>
                 <tbody>
                 {projects
-                    .filter(project => project.name.toLowerCase().indexOf(query) > -1)
-                    .map((project) =>
-                        <tr>
+                    .filter(project => project.name.toLowerCase().indexOf(query.toLowerCase()) > -1)
+                    .map((project, i) =>
+                        <tr key={i}>
                             <td>
                                 <NavLink to={`/projects/${project.id}`}>{project.name}</NavLink>
                             </td>
@@ -42,25 +43,25 @@ const ProfileProjects = ({projects}) => {
         </div>
     );
 
-    function sort() {
+    function sort(field) {
         switch(sortType) {
             case undefined:
             case 1: setSortType(0)
-                setTable(table.sort(ascendingOrder))
+                setTable(table.sort(ascendingOrder.bind(null, field)))
                 break;
             case 0: setSortType(1)
-                setTable(table.sort(descendingOrder))
+                setTable(table.sort(descendingOrder.bind(null, field)))
                 break;
         }
     }
 };
 
-function ascendingOrder(s1,s2) {
-    return s1 > s2 ? 1 : -1
+function ascendingOrder(field, s1,s2) {
+    return s1[field] > s2[field] ? 1 : -1
 }
 
-function descendingOrder(s1,s2) {
-    return s1 < s2 ? -1 : -1
+function descendingOrder(field, s1,s2) {
+    return s1[field] < s2[field] ? -1 : -1
 }
 
 export default ProfileProjects;

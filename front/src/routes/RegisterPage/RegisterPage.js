@@ -14,14 +14,15 @@ const RegisterPage = () => {
     return (
         <div>
             <Formik
-                initialValues={{email: '', password: ''}}
-                validate={({email, password}) => {
+                initialValues={{email: '', password: '', name: ''}}
+                validate={({email, password, name}) => {
                     const errors = {};
                     if (!/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
                         .test(email)) {
                         errors.email = 'Invalid email'
                     }
                     if (!password) errors.password = 'Password is empty'
+                    if(!name) errors.name = 'Username is required'
                     return errors
                 }}
                 onSubmit={async (values, {setSubmitting}) => {
@@ -34,6 +35,11 @@ const RegisterPage = () => {
             >
                 {({isSubmitting, handleSubmit}) => (
                     <Form onSubmit={handleSubmit} className={'container ' + s.form}>
+                        <Field
+                            type="text"
+                            name="name"
+                            placeholder="Username"
+                            className="form-control"/>
                         <Field
                             type="email"
                             name="email"

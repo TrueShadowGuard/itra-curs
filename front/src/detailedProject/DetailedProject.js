@@ -13,6 +13,7 @@ import NotFound from "../routes/ProfilePage/NotFound";
 const DetailedProject = ({match}) => {
     const [data, setData] = useState(undefined);
     const history = useHistory()
+    console.log('Project data', data)
     useEffect(async () => {
         const newData = await getDetailedProject(match.params.id);
         setData(newData);
@@ -28,6 +29,8 @@ const DetailedProject = ({match}) => {
             description,
             tags,
             id,
+            creatingDate,
+            endingDate,
             video
         } = data;
     }
@@ -47,7 +50,10 @@ const DetailedProject = ({match}) => {
                         </Col>
                     </Row>
                     <Row>
-                        <Col>Date of ending: 12/21/2021</Col>
+                        <Col>Starting date: {creatingDate?.split('T')[0]}</Col>
+                    </Row>
+                    <Row>
+                        <Col>Ending date: {endingDate?.split('T')[0]}</Col>
                     </Row>
                     <Row className="mt-2">
                         <Col lg={12} className="d-flex justify-content-center">

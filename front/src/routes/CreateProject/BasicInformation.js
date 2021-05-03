@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ErrorMessage, Field} from "formik";
 import s from "./createProject.module.css";
 import FormFieldError from "../../utils/FormFieldError";
+import DatePicker from 'react-date-picker';
 
 const BasicInformation = () => {
     return (
@@ -53,7 +54,6 @@ const BasicInformation = () => {
             <Field
                 as="textarea"
                 className={"form-control mt-1 " + s.field}
-                id="example"
                 placeholder="Description(Markdown)"
                 maxLength={500}
                 name="description"
@@ -61,6 +61,12 @@ const BasicInformation = () => {
             <ErrorMessage name="description">
                 {msg => <FormFieldError text={msg}/>}
             </ErrorMessage>
+            <div style={{width: '100%'}}/>
+            <Field
+                type="date"
+                name="date"
+                className={"form-control mt-1 " + s.field}
+            />
         </React.Fragment>
     );
 };

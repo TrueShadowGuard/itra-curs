@@ -37,7 +37,7 @@ const start = async () => {
                 $regex: /n/
             }
         })
-        console.log('res,', res)
+
 
         app.listen(PORT, () => console.log(`server started on port ${PORT}`))
     } catch

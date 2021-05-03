@@ -14,7 +14,14 @@ export default function CreateProject() {
     return (
         <div>
             <Formik
-                initialValues={{name: 'name', money: 1, video: 'dvvd', description: 'vd', images: []}}
+                initialValues={{
+                    name: 'name',
+                    money: 1,
+                    video: 'dvvd',
+                    description: 'vd',
+                    images: [],
+                    date: new Date()
+                }}
                 validate={values => {
                     const errors = {};
                     if (!values.name) errors.name = 'Required';
@@ -26,12 +33,11 @@ export default function CreateProject() {
                 }}
                 onSubmit={async (values, {setSubmitting}) => {
                     setSubmitting(true)
-                    console.log('auth', auth)
                     try {
                         const response = await createProject(values, auth?.token)
                         const json = await response.json()
-                        if(response.ok) history.push(`/projects/${json.id}/`)
-                    } catch(e) {
+                        if (response.ok) history.push(`/projects/${json.id}/`)
+                    } catch (e) {
                         console.log(e)
                     } finally {
                         setSubmitting(false)

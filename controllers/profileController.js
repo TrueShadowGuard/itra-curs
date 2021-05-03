@@ -3,6 +3,7 @@ const mongodb = require('mongodb')
 const User = require('../models/User')
 const Project = require('../models/Project')
 const getNextSeqVal = require('../utils/getNextSeqVal')
+const {News} = require("../models/News");
 
 class projectsController {
     async getProfile(req, res) {
@@ -17,7 +18,9 @@ class projectsController {
     async createProject(req, res) {
         try {
             const {id} = req.user
-            const {name, money, video, description, images, bonuses} = req.body
+            const {name, money, video, description, date, bonuses} = req.body
+            const news = await new News([])
+
             const newProject = new Project({
                 name,
                 bonuses,
@@ -25,6 +28,8 @@ class projectsController {
                 totalMoney: money,
                 money: 0,
                 description,
+                endingDate: date,
+                news,
                 id: await getNextSeqVal('projects')
             })
             await newProject.save()
