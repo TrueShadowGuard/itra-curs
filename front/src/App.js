@@ -16,7 +16,8 @@ function App() {
     const [auth, setAuth] = useState((() => {
             let token = localStorage.getItem('token');
             let id = localStorage.getItem('id');
-            return (token && id) ? {token, id} : null
+            let userName = localStorage.getItem('userName')
+            return (token && id) ? {token, id, userName} : null
         })()
     );
 
