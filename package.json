@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon index.js",
+    "server": "nodemon --ignore './front/' index.js",
     "front": "npm start --prefix front",
-    "start": "concurrently \"nodemon server\" \"npm run front\"",
+    "start": "concurrently \"nodemon --ignore 'front' server\" \"npm run front\"",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "keywords": [],

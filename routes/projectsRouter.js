@@ -6,6 +6,8 @@ const authMiddleware = require('../middlewaree/authMiddleware')
 
 router.get('/getProjects', controller.getProjects)
 router.get('/getProject/:id', controller.getProject)
+router.post('/send-message/:id', authMiddleware, controller.sendMessage)
+router.get('/get-messages/:id', controller.getComments)
 
 
 module.exports = router

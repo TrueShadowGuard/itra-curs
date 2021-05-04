@@ -31,6 +31,7 @@ const DetailedProject = ({match}) => {
             id,
             creatingDate,
             endingDate,
+            comments,
             video
         } = data;
     }
@@ -76,7 +77,10 @@ const DetailedProject = ({match}) => {
             <hr/>
             <Row>
                 <Col lg={6} className="offset-lg-1">
-                    <Routes description={description}/>
+                    <Routes id={match.params.id}
+                            description={description}
+                            comments={comments}
+                            />
                 </Col>
                 <Col lg={3}>
                     <Bonuses bonuses={bonuses} className="p-3"/>

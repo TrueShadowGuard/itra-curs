@@ -6,9 +6,10 @@ const getNextSeqVal = require('../utils/getNextSeqVal')
 const {validationResult} = require('express-validator')
 const {secret} = require("../config")
 
-const generateAccessToken = (id) => {
+const generateAccessToken = (id, name) => {
     const payload = {
         id,
+        name
     }
     return jwt.sign(payload, secret, {expiresIn: "24h"})
 }
@@ -56,8 +57,8 @@ class authController {
             if (user.banned) {
                 res.json({message: 'banned'})
             }
-            const token = generateAccessToken(user.id)
-            return res.json({token, id: user.id})
+            const token = generateAccessToken(user.id, user.name)
+            return res.json({token, id: user.id, name: user.name})
         } catch (e) {
             console.log(e)
             res.status(400).json({message: 'Login error'})

@@ -10,7 +10,7 @@ const ProfileProjects = ({projects}) => {
     console.log('table', table,'sortType', sortType)
     return (
         <div>
-            <h1>Projects:</h1>
+            <h2>Projects:</h2>
             <Row className="mb-3">
                 <Col lg={2}><input value={query}
                                    onChange={e => setQuery(e.target.value)}
@@ -31,7 +31,7 @@ const ProfileProjects = ({projects}) => {
                     .map((project, i) =>
                         <tr key={i}>
                             <td>
-                                <NavLink to={`/projects/${project.id}`}>{project.name}</NavLink>
+                                <NavLink to={`/projects/${project.id}/`}>{project.name}</NavLink>
                             </td>
                             <td>
                                 <ProgressBar now={project.money / project.totalMoney * 100} />

@@ -6,8 +6,9 @@ const Comments = new Schema({
 })
 
 const Comment = new Schema({
-    user: [{type: Types.ObjectId, ref: "users"}],
+    userId: String,
+    userName: String,
     message: String
 })
 module.exports.Comments = model('comments', Comments)
-module.exports.Comments = model('comment', Comment)
+module.exports.Comment = model('comment', Comment)

@@ -13,11 +13,16 @@ import RegisterPage from "./routes/RegisterPage/RegisterPage";
 export const Auth = React.createContext(null)
 
 function App() {
-    const [auth,setAuth] = useState(null);
+    const [auth, setAuth] = useState((() => {
+            let token = localStorage.getItem('token');
+            let id = localStorage.getItem('id');
+            return (token && id) ? {token, id} : null
+        })()
+    );
 
     return (
         <BrowserRouter>
-            <Auth.Provider value={{auth,setAuth}}>
+            <Auth.Provider value={{auth, setAuth}}>
                 <NavBar/>
                 <Switch>
                     <Route exact path="/" component={MainPage}/>

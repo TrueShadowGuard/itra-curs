@@ -29,6 +29,9 @@ const LoginPage = () => {
                     if (auth.token) {
                         auth.token = 'Bearer ' + auth.token;
                         setAuth(auth);
+                        localStorage.setItem('token', auth.token)
+                        localStorage.setItem('id', auth.id)
+                        localStorage.setItem('userName', auth.name)
                         history.push(`/profiles/${auth.id}`)
                     }
                     setSubmitting(false);
