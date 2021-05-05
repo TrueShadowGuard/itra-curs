@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {Button, FormControl} from "react-bootstrap";
-import sendComment from "../http/sendComment";
-import getComments from "../http/getComments";
+import sendComment from "../../http/sendComment";
+import getComments from "../../http/getComments";
 import {NavLink} from "react-router-dom";
 
 const comment = {

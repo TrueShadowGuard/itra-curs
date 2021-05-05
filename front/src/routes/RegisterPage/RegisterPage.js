@@ -7,6 +7,7 @@ import {register} from '../../http/auth';
 import {NavLink} from "react-router-dom";
 import {useHistory} from "react-router";
 import {Auth} from "../../App";
+import FormFieldError from "../../utils/FormFieldError";
 
 const RegisterPage = () => {
     const history = useHistory();
@@ -22,13 +23,18 @@ const RegisterPage = () => {
                         errors.email = 'Invalid email'
                     }
                     if (!password) errors.password = 'Password is empty'
-                    if(!name) errors.name = 'Username is required'
+                    if (!name) errors.name = 'Username is required'
                     return errors
                 }}
-                onSubmit={async (values, {setSubmitting}) => {
+                onSubmit={async (values, {setSubmitting, setErrors}) => {
                     let response = await register(values)
-                    if(response.ok) {
+                    console.log(response)
 
+                    if (response.ok) {
+                        history.push('/login')
+                    } else {
+                        if(response.status === 406) setErrors({email: 'Email is already taken'});
+                        else setErrors({email: 'Registration failed'});
                     }
                     setSubmitting(false);
                 }}
@@ -40,26 +46,33 @@ const RegisterPage = () => {
                             name="name"
                             placeholder="Username"
                             className="form-control"/>
+                        <ErrorMessage name="name">
+                            {msg => <FormFieldError text={msg}/>}
+                        </ErrorMessage>
                         <Field
                             type="email"
                             name="email"
                             placeholder={'Email'}
                             className="form-control"/>
+                        <ErrorMessage name="email">
+                            {msg => <FormFieldError text={msg}/>}
+                        </ErrorMessage>
                         <Field
                             type="password"
                             name="password"
                             placeholder={'Password'}
                             className="form-control"
                         />
+                        <ErrorMessage name="password">
+                            {msg => <FormFieldError text={msg}/>}
+                        </ErrorMessage>
                         <Button type="submit" className={s.submit} disabled={isSubmitting}>Register</Button>
-                        <ErrorMessage name="email" component="div"/>
-                        <ErrorMessage name="password" component="div"/>
                         <NavLink to="/login"><small>login</small></NavLink>
                     </Form>
                 )}
             </Formik>
         </div>
     );
-};
+}
 
 export default RegisterPage;

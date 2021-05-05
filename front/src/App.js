@@ -5,7 +5,7 @@ import MainPage from "./routes/MainPage/MainPage";
 import LoginPage from "./routes/LoginPage/LoginPage";
 import NavBar from "./navbar/NavBar";
 import AboutPage from "./routes/AboutPage/AboutPage";
-import DetailedProject from "./detailedProject/DetailedProject";
+import DetailedProject from "./routes/DetailedProject/DetailedProject";
 import ProfilePage from "./routes/ProfilePage/ProfilePage";
 import CreateProject from "./routes/CreateProject/CreateProject";
 import RegisterPage from "./routes/RegisterPage/RegisterPage";

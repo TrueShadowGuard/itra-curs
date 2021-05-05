@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Row} from "react-bootstrap";
 import {NavLink} from "react-router-dom";
-import getDetailedProject from "../http/getDetailedProject";
+import getDetailedProject from "../../http/getDetailedProject";
 import YTVideo from "./YTVideo";
 import Links from "./Links";
 import Routes from "./Routes";
 import Bonuses from "./Bonuses";
 import MoneyInicator from "./MoneyIndicator";
 import {useHistory} from "react-router";
-import NotFound from "../routes/ProfilePage/NotFound";
+import NotFound from "../ProfilePage/NotFound";
 
 const DetailedProject = ({match}) => {
     const [data, setData] = useState(undefined);

@@ -24,7 +24,7 @@ class authController {
             let {email, password, name} = req.body;
             const candidate = await User.findOne({email})
             if (candidate) {
-                return res.status(400).json({message: "Пользователь с таким email уже существует"})
+                return res.status(406).json({message: "Пользователь с таким email уже существует"})
             }
             const hashPassword = bcrypt.hashSync(password, 7);
             const user = new User({
@@ -48,11 +48,11 @@ class authController {
             const {email, password} = req.body
             const user = await User.findOne({email})
             if (!user) {
-                return res.status(400).json({message: `Пользователь ${email} не найден`})
+                return res.status(406).json({message: `Пользователь ${email} не найден`})
             }
             const validPassword = bcrypt.compareSync(password, user.password)
             if (!validPassword) {
-                return res.status(400).json({message: `Введен неверный пароль`})
+                return res.status(406).json({message: `Введен неверный пароль`})
             }
             if (user.banned) {
                 res.json({message: 'banned'})

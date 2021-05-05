@@ -17,7 +17,7 @@ const FormFieldError = ({text}) => {
             delay={{ show: 150, hide: 150 }}
             overlay={renderTooltip(text)}
         >
-            <img src={Svg} alt="" width='20'/>
+            <img src={Svg} alt="" width='20px' height='20px'/>
         </OverlayTrigger>
     );
 };

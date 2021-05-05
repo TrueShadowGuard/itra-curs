@@ -6,6 +6,7 @@ import s from './loginPage.module.css';
 import {login} from '../../http/auth';
 import {NavLink} from "react-router-dom";
 import {Auth} from "../../App";
+import FormFieldError from "../../utils/FormFieldError";
 import {useHistory} from "react-router";
 
 const LoginPage = () => {
@@ -21,38 +22,51 @@ const LoginPage = () => {
                         .test(email)) {
                         errors.email = 'Invalid email'
                     }
-                    if(!password) errors.password = 'Password is empty'
+                    if (!password) errors.password = 'Password is empty'
                     return errors
                 }}
-                onSubmit={async (values, {setSubmitting}) => {
-                    const auth = await login(values);
-                    if (auth.token) {
-                        auth.token = 'Bearer ' + auth.token;
-                        setAuth(auth);
-                        localStorage.setItem('token', auth.token)
-                        localStorage.setItem('id', auth.id)
-                        localStorage.setItem('userName', auth.name)
-                        history.push(`/profiles/${auth.id}`)
+                onSubmit={async (values, {setSubmitting, setErrors}) => {
+                    const response = await login(values);
+                    if (response.ok) {
+                        const auth = await response.json()
+                        if (auth.token) {
+                            auth.token = 'Bearer ' + auth.token;
+                            setAuth(auth);
+                            localStorage.setItem('token', auth.token)
+                            localStorage.setItem('id', auth.id)
+                            localStorage.setItem('userName', auth.name)
+                            history.push(`/profiles/${auth.id}`)
+                        }
+                    } else {
+                        setErrors({email: 'Login failed', password: 'Login failed'})
                     }
                     setSubmitting(false);
                 }}
             >
                 {({isSubmitting, handleSubmit}) => (
                     <Form onSubmit={handleSubmit} className={'container ' + s.form}>
-                        <Field
-                            type="email"
-                            name="email"
-                            placeholder='Email'
-                            className="form-control"/>
-                        <Field
-                            type="password"
-                            name="password"
-                            placeholder='Password'
-                            className="form-control"
-                        />
-                        <ErrorMessage name="name" component="div"/>
-                        <ErrorMessage name="email" component="div"/>
-                        <ErrorMessage name="password" component="div"/>
+                        <div>
+                            <Field
+                                type="email"
+                                name="email"
+                                placeholder='Email'
+                                className="form-control"/>
+                            <ErrorMessage name="email">
+                                {msg => <FormFieldError text={msg}/>}
+                            </ErrorMessage>
+                        </div>
+                        <div>
+                            <Field
+                                type="password"
+                                name="password"
+                                placeholder='Password'
+                                className="form-control"
+                            />
+                            <ErrorMessage name="password">
+                                {msg => <FormFieldError text={msg}/>}
+                            </ErrorMessage>
+                        </div>
+
                         <Button type="submit" className={s.submit} disabled={isSubmitting}>Login</Button>
                         <NavLink to="/register"><small>register</small></NavLink>
                     </Form>
