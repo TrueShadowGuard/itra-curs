@@ -9,17 +9,20 @@ import Bonuses from "./Bonuses";
 import MoneyInicator from "./MoneyIndicator";
 import {useHistory} from "react-router";
 import NotFound from "../ProfilePage/NotFound";
+import Loading from "../../utils/Loading";
+import SupportProjectButton from "./SupportProjectButton";
 
 const DetailedProject = ({match}) => {
     const [data, setData] = useState(undefined);
     const history = useHistory()
     console.log('Project data', data)
+
     useEffect(async () => {
         const newData = await getDetailedProject(match.params.id);
         setData(newData);
     }, []);
 
-    if(data === null) return <NotFound text="Project" />
+    if (data === null) return <NotFound text="Project" />
     if(data) {
         var {
             name,
@@ -37,7 +40,8 @@ const DetailedProject = ({match}) => {
     }
 
     return (
-        data !== undefined &&
+        data === undefined ?
+        <div className="d-flex justify-content-center mt-5"><Loading/></div> :
         <div className="container-fluid">
             <h1 className="offset-1">{name}</h1>
             <Row>
@@ -58,7 +62,8 @@ const DetailedProject = ({match}) => {
                     </Row>
                     <Row className="mt-2">
                         <Col lg={12} className="d-flex justify-content-center">
-                            <Button style={{width: '100%'}}>Support project</Button>
+                            <SupportProjectButton projectId={id}
+                                                  addMoney={(amount) => setData({...data, money: data.money + amount})}/>
                         </Col>
                     </Row>
                     <Row>

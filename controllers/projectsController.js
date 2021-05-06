@@ -43,6 +43,17 @@ class projectsController {
             console.log(e)
         }
     }
+    async sendMoney(req, res) {
+        const amount = req.body.amount
+        if (!amount || amount != +amount) return res.status(400).json({message: 'Invalid amount'})
+        try {
+            const project = await Project.findOne({id: req.params.id})
+            await Project.updateOne({id: req.params.id}, {money: project.money + +amount})
+            res.status(200).json({message: 'Success'})
+        } catch (e) {
+            res.status(500).json({message: 'Server error. Please try again later'})
+        }
+    }
 }
 
 module.exports = new projectsController()
