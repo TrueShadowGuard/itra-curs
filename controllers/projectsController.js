@@ -6,7 +6,17 @@ const emitter = new EventEmitter()
 
 class projectsController {
     async getProjects(req, res) {
-        const result = await Project.find()
+        const q = req.params.q
+        console.log(q)
+        if(q === undefined) return res.json(await Project.find({}))
+        if(q.length < 3) return res.status(506).json({message: 'Server error'})
+        console.log(req.params)
+        const result = await Project.find({
+            name: {
+                $regex: new RegExp(req.params.q, 'gi')
+            }
+        })
+        console.log(result)
         res.json(result)
     }
 

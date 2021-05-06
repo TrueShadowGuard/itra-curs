@@ -1,9 +1,9 @@
-export default async function getProjectCards(offset) {
+export default async function getProjectCards(query) {
+    console.log('query', query)
     try {
-        let response = await fetch('/api/projects/getProjects')
-        let json = await response.json()
-        console.log('projects:', json)
-        return json
+        let response = await fetch(`/api/projects/getProjects${query === null || query === undefined ? '' : '/' + query}`)
+        if (!response.ok) return false
+        return await response.json()
     } catch (e) {
         console.log('Failed getting project cards ', e);
     }

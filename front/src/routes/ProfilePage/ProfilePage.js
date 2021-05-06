@@ -4,7 +4,7 @@ import getProfilePage from "../../http/getProfilePage";
 import {NavLink} from "react-router-dom";
 import ProfileBonus from "./ProfileBonus";
 import ProfileProjects from "./ProfileProjects";
-import NotFound from "./NotFound";
+import NotFound from "../../utils/NotFound";
 import Loading from "../../utils/Loading";
 import {Auth} from "../../App";
 

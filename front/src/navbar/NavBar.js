@@ -22,13 +22,11 @@ const NavBar = () => {
                              activeStyle={{textDecoration: 'underline', color: '#eee'}}>About</NavLink>
                     {auth ? <ProfileLink/> :
                         <NavLink to="/login"
-                            className="nav-link"
-                            activeStyle={{textDecoration: 'underline', color: '#eee'}}>Login</NavLink>
+                                 className="nav-link"
+                                 activeStyle={{textDecoration: 'underline', color: '#eee'}}>Login</NavLink>
                     }
                 </Nav>
-                <Form inline>
-                    <SearchField data={['11122121', '21312112', '11212121', '1212212']}/>
-                </Form>
+                <SearchField/>
             </Navbar.Collapse>
         </Navbar>
     );

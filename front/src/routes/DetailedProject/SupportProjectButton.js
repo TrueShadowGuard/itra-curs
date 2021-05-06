@@ -10,7 +10,7 @@ export default function SupportProjectButton({projectId, addMoney}) {
     return <div style={{width: '100%'}}>
         <Button style={{width: '100%'}} onClick={supportProject.bind(null, projectId, setFetching, addMoney)}
                         disabled={!auth?.token || fetching}>Support project</Button>
-        <div>You must login to support</div>
+        {!auth?.token && <div>You must login to support</div>}
     </div>
 }
 

@@ -32,12 +32,6 @@ const start = async () => {
             useUnifiedTopology: true
         })
 
-        let res = await Project.find({
-            name: {
-                $regex: /n/
-            }
-        })
-
         app.listen(PORT, () => console.log(`server started on port ${PORT}`))
     } catch
         (e) {

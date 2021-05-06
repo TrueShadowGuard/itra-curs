@@ -8,7 +8,7 @@ import Routes from "./Routes";
 import Bonuses from "./Bonuses";
 import MoneyInicator from "./MoneyIndicator";
 import {useHistory} from "react-router";
-import NotFound from "../ProfilePage/NotFound";
+import NotFound from "../../utils/NotFound";
 import Loading from "../../utils/Loading";
 import SupportProjectButton from "./SupportProjectButton";
 
