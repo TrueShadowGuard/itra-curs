@@ -1,9 +1,13 @@
 import React from 'react';
 import {Carousel} from "react-bootstrap";
 
+const carouselStyle = {
+    width: '100%',
+    maxWidth: '500px'
+}
 export default function Gallery() {
     return (
-        <Carousel style={{width: 500}} indicators={true}>
+        <Carousel style={carouselStyle} indicators={true}>
             <Carousel.Item>
                 <img
                     className="d-block w-100"
