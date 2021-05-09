@@ -1,11 +1,11 @@
 import React, {useContext, useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import {Button, Card, Accordion} from "react-bootstrap";
-import ImageUploader from "./ImageUploader";
 import BasicInformation from "./BasicInformation";
 import createProject from "../../http/createProject";
 import {Auth} from "../../App";
 import {useHistory} from "react-router";
+import {NavLink} from "react-router-dom";
 
 export default function CreateProject() {
     const {auth} = useContext(Auth)
@@ -15,11 +15,13 @@ export default function CreateProject() {
         <div>
             <Formik
                 initialValues={{
-                    name: 'name',
+                    name: '',
                     money: 1,
                     video: 'dvvd',
                     description: 'vd',
-                    images: [],
+                    imagePreview: null,
+                    textPreview: '',
+                    images,
                     date: new Date()
                 }}
                 validate={values => {
@@ -34,9 +36,10 @@ export default function CreateProject() {
                 onSubmit={async (values, {setSubmitting}) => {
                     setSubmitting(true)
                     try {
-                        const response = await createProject(values, auth?.token)
-                        const json = await response.json()
-                        if (response.ok) history.push(`/projects/${json.id}/`)
+                        console.log(values)
+                        // const response = await createProject({...values, images}, auth?.token)
+                        // const json = await response.json()
+                        // if (response.ok) history.push(`/projects/${json.id}/`)
                     } catch (e) {
                         console.log(e)
                     } finally {
@@ -44,7 +47,7 @@ export default function CreateProject() {
                     }
                 }}
             >
-                {({isSubmitting, handleSubmit}) => (
+                {({isSubmitting, handleSubmit, setFieldValue}) => (
                     <Form className="m-2" onSubmit={handleSubmit}>
                         <Accordion defaultActiveKey="1">
                             <Card>
@@ -55,9 +58,8 @@ export default function CreateProject() {
                                 </Card.Header>
                                 <Accordion.Collapse eventKey="1">
                                     <Card.Body>
-                                        <div className="d-flex flex-row flex-wrap">
+                                        <div className="d-flex flex-row flex-wrap align-items-center">
                                             <BasicInformation/>
-                                            <br/>
                                         </div>
                                     </Card.Body>
                                 </Accordion.Collapse>
@@ -65,18 +67,19 @@ export default function CreateProject() {
                             <Card>
                                 <Card.Header>
                                     <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                        Images
+                                        Gallery Images
                                     </Accordion.Toggle>
                                 </Card.Header>
                                 <Accordion.Collapse eventKey="0">
                                     <Card.Body>
-                                        <ImageUploader images={images} setImages={setImages}/>
                                     </Card.Body>
                                 </Accordion.Collapse>
                             </Card>
                         </Accordion>
 
-                        <Button type="submit" className="mt-2" disabled={isSubmitting}>Create</Button>
+                        <Button type="submit" className="mt-2" disabled={isSubmitting || !auth?.token}>Create</Button>
+                        {!auth?.token &&
+                        <NavLink to="/login" className="ml-3">You must login to create project</NavLink>}
                     </Form>
                 )}
             </Formik>

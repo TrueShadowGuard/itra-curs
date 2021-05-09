@@ -15,11 +15,10 @@ const ProjectCard = ({card}) => {
                     Some quick example text to build on the card title and make up the bulk of
                     the card's content.
                 </Card.Text>
-                <ProgressBar animated now={percent}/>
+                <ProgressBar animated now={percent} />
                 <hr/>
                 <div className="text-center">
-                    {money} $<br/>
-                    Collected {percent}%
+                    Collected {money}$<br/>{percent}%
                 </div>
                 <div className="d-flex justify-content-center">
                     <NavLink to={"/projects/" + id + "/"} className="mt-2 btn btn-outline-primary">Read more</NavLink>

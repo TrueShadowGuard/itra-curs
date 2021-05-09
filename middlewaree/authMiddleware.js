@@ -10,9 +10,11 @@ module.exports = function (req, res, next) {
     try {
         const token = req.headers.authorization.split(' ')[1]
         if (!token) {
-            return res.status(400).json({message: 'Unauthorized'})
+            return res.status(401).json({message: 'Unauthorized'})
         }
         const decodedData = jwt.verify(token, secret)
+
+        console.log(decodedData)
 
         User.findOne({id: decodedData.id, banned: true}).then(banned => {
             if(banned) return res.status(400).json({message: 'Unauthorized'})
@@ -21,6 +23,6 @@ module.exports = function (req, res, next) {
         })
     } catch (e) {
         console.log(e)
-        return res.status(400).json({message: 'Unauthorized'})
+        return res.status(401).json({message: 'Unauthorized'})
     }
 };

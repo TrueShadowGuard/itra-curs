@@ -1,13 +1,19 @@
-export default async function(projectId, message) {
-    console.log('comment project id', projectId)
+import checkIfAuthorized from "../utils/checkIfAuthorized";
+
+export default async function (projectId, message, setAuth) {
     const Authorization = localStorage.getItem('token')
-    console.log('sendComment', Authorization, projectId, message)
-    return await fetch(`/api/projects/send-message/${projectId}`, {
-        method: 'POST',
-        headers: {
-            Authorization,
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify({message})
-    })
+    try {
+        const response = await fetch(`/api/projects/send-message/${projectId}`, {
+            method: 'POST',
+            headers: {
+                Authorization,
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({message})
+        })
+        checkIfAuthorized(response, setAuth)
+        return response
+    } catch (e) {
+        console.log(e)
+    }
 }

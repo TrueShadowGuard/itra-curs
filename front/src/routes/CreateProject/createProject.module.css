@@ -1,4 +1,10 @@
 .field {
-    width: 80%;
+    width: calc(100% - 30px);
     margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+    .field {
+        
+    }
 }

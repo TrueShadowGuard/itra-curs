@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import {ErrorMessage, Field} from "formik";
 import s from "./createProject.module.css";
 import FormFieldError from "../../utils/FormFieldError";
-import DatePicker from 'react-date-picker';
+import {Form} from 'react-bootstrap';
 
-const BasicInformation = () => {
+const BasicInformation = ({setFieldValue}) => {
     return (
         <React.Fragment>
             <Field
@@ -69,6 +69,6 @@ const BasicInformation = () => {
             />
         </React.Fragment>
     );
-};
+}
 
 export default BasicInformation;
