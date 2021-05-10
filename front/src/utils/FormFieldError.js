@@ -13,7 +13,7 @@ const renderTooltip = (text) => {
 const FormFieldError = ({text}) => {
     return (
         <OverlayTrigger
-            placement="right"
+            placement="left"
             delay={{ show: 150, hide: 150 }}
             overlay={renderTooltip(text)}
         >

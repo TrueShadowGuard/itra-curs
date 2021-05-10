@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const getNextSeqVal = require('../utils/getNextSeqVal')
 const {validationResult} = require('express-validator')
-const {secret} = require("../config")
+const {secret} = require("../config/mongo")
 
 const generateAccessToken = (id, name) => {
     const payload = {

@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const {Types} = require('mongoose')
@@ -14,11 +15,11 @@ const getNextSeqVal = require('./utils/getNextSeqVal')
 
 const PORT = process.env.PORT || 3001
 const app = express()
-const config = require('./config');
+const config = require('./config/mongo');
 
 app.use(cors())
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
+app.use(bodyParser.json({limit: '10mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
 
 app.use('/api/auth/', authRouter)
 app.use('/api/projects/', projectsRouter)

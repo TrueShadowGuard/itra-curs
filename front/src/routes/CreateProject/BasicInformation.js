@@ -67,8 +67,20 @@ const BasicInformation = ({setFieldValue}) => {
                 name="date"
                 className={"form-control mt-1 " + s.field}
             />
+            <div style={{width: '100%'}}>Chose image preview. Supported formats: png, jpg. Max size 5mb</div>
+            <input type="file"
+                   onChange={e => handleChange(e, setFieldValue)}
+                   className="mt-1"
+                   accept="image/*"
+            />
         </React.Fragment>
     );
+}
+const MAX_FILE_SIZE = 5_000_000
+function handleChange(e, setFieldValue) {
+    window.file = e.target.files[0]
+    if(e.target.files[0].size > MAX_FILE_SIZE) return
+    setFieldValue('imagePreview', e.target.files[0])
 }
 
 export default BasicInformation;

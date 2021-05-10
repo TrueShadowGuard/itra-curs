@@ -1,9 +1,10 @@
+const cloudinary = require('../config/cloudinary')
 const mongoose = require('mongoose')
 const mongodb = require('mongodb')
 const User = require('../models/User')
 const Project = require('../models/Project')
 const getNextSeqVal = require('../utils/getNextSeqVal')
-const {News} = require("../models/News");
+const {News} = require("../models/News")
 
 class projectsController {
     async getProfile(req, res) {
@@ -18,13 +19,25 @@ class projectsController {
     async createProject(req, res) {
         try {
             const {id} = req.user
-            const {name, money, video, description, date, bonuses} = req.body
-            const news = await new News([])
+            const {name, money, video, description, date, bonuses, imagePreview} = req.body
+
+            const response = await cloudinary.uploader.upload(imagePreview, {
+                    overwrite: true,
+                    invalidate: true,
+                    width: 810, height: 456, crop: "fill"
+                },
+                function (error) {
+                    console.error(error)
+                })
+
+            const news = new News([])
+            await news.save()
 
             const newProject = new Project({
                 name,
                 bonuses,
                 video,
+                preview: response.url,
                 totalMoney: money,
                 money: 0,
                 description,
@@ -35,11 +48,9 @@ class projectsController {
             await newProject.save()
             const user = await User.findOne({id});
             user.projects.push(newProject._id)
-            await User.updateOne({
-                id
-            }, {projects: user.projects}, { upsert: true });
+            await user.save()
             return res.status(200).json({id: newProject.id})
-        } catch(e) {
+        } catch (e) {
             console.log(e)
             res.status(500).json({message: 'Server error'})
         }
