@@ -19,7 +19,7 @@ class projectsController {
     async createProject(req, res) {
         try {
             const {id} = req.user
-            const {name, money, video, description, date, bonuses, imagePreview} = req.body
+            const {name, money, video, description, date, bonuses, imagePreview, textPreview} = req.body
 
             const response = await cloudinary.uploader.upload(imagePreview, {
                     overwrite: true,
@@ -38,6 +38,7 @@ class projectsController {
                 bonuses,
                 video,
                 preview: response.url,
+                textPreview,
                 totalMoney: money,
                 money: 0,
                 description,

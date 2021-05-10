@@ -31,6 +31,7 @@ export default function CreateProject() {
                     if (!values.money) errors.money = 'Required'; else if (+values.money <= 0) errors.money = 'Must be positive'
                     if (!values.video) errors.video = 'Required';
                     if (!values.description) errors.description = 'Required';
+                    if (!values.textPreview) errors.textPreview = 'Required';
                     return errors;
                 }}
                 onSubmit={async (values, {setSubmitting}) => {
@@ -39,9 +40,8 @@ export default function CreateProject() {
                         fr.readAsDataURL(values.imagePreview)
                         fr.onload = async e => {
                             values.imagePreview = fr.result
-                            const response = await createProject({...values}, auth?.token, setAuth)
+                            const response = await createProject(values, auth?.token, setAuth)
                             const json = await response.json()
-                            setSubmitting(false)
                             if (response.ok) history.push(`/projects/${json.id}/`)
                         }
                     } catch (e) {

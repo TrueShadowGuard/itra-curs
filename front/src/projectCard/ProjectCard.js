@@ -3,7 +3,7 @@ import {Button, Card, ProgressBar} from "react-bootstrap";
 import {NavLink} from "react-router-dom";
 
 const ProjectCard = ({card}) => {
-    const {money, totalMoney, preview, description, name, tags, id} = card;
+    const {money, totalMoney, preview, textPreview, description, name, tags, id} = card;
     const percent = Math.trunc(money / totalMoney * 100)
     return (
         <Card className="mt-3">
@@ -12,10 +12,9 @@ const ProjectCard = ({card}) => {
             <Card.Body>
                 <Card.Title>{name}</Card.Title>
                 <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of
-                    the card's content.
+                    {textPreview}
                 </Card.Text>
-                <ProgressBar animated now={percent} />
+                <ProgressBar animated now={percent}/>
                 <hr/>
                 <div className="text-center">
                     Collected {money}$<br/>{percent}%

@@ -51,6 +51,18 @@ const BasicInformation = ({setFieldValue}) => {
             <ErrorMessage name="category">
                 {msg => <FormFieldError text={msg}/>}
             </ErrorMessage>
+
+            <Field
+                as="textarea"
+                className={"form-control mt-1 " + s.field}
+                placeholder="Preview description"
+                maxLength={200}
+                name="textPreview"
+            />
+            <ErrorMessage name="textPreview">
+                {msg => <FormFieldError text={msg}/>}
+            </ErrorMessage>
+
             <Field
                 as="textarea"
                 className={"form-control mt-1 " + s.field}
@@ -61,6 +73,7 @@ const BasicInformation = ({setFieldValue}) => {
             <ErrorMessage name="description">
                 {msg => <FormFieldError text={msg}/>}
             </ErrorMessage>
+
             <div style={{width: '100%'}}/>
             <Field
                 type="date"

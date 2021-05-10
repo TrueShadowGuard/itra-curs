@@ -75,7 +75,7 @@ const DetailedProject = ({match}) => {
             </Row>
             <hr className="mt-lg-5"/>
             <Row>
-                <Col lg={3} className="offset-lg-1">
+                <Col lg={4} className="offset-lg-1">
                     <Links/>
                 </Col>
             </Row>

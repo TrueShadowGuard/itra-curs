@@ -3,7 +3,8 @@ const {Schema, model, Types} = require('mongoose')
 
 const Project = new Schema({
     name: {type: String, required: true},
-    preview: {type: String, default: "https://html5css.ru/css/img_lights.jpg"},
+    preview: {type: String, default: "https://superdevresources.com/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png"},
+    textPreview: {type: String, required: true},
     bonuses: [{type: Types.ObjectId, ref: 'bonuses', required: true}],
     video: {type: String, required: true},
     totalMoney: {type: Number, required: true},
