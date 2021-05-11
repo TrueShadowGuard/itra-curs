@@ -6,17 +6,18 @@ import createProject from "../../http/createProject";
 import {Auth} from "../../App";
 import {useHistory} from "react-router";
 import {NavLink} from "react-router-dom";
+import Loading from "../../utils/Loading";
 
-const fr = new FileReader();
 export default function CreateProject() {
     const {auth, setAuth} = useContext(Auth)
     const [images, setImages] = useState([])
+    const [fetching, setFetching] = useState(false)
     const history = useHistory()
     return (
         <div>
             <Formik
                 initialValues={{
-                    name: '',
+                    name: 'fggf',
                     money: 1,
                     video: 'dvvd',
                     description: 'vd',
@@ -35,20 +36,11 @@ export default function CreateProject() {
                     return errors;
                 }}
                 onSubmit={async (values, {setSubmitting}) => {
-                    setSubmitting(true)
-                    try {
-                        fr.readAsDataURL(values.imagePreview)
-                        fr.onload = async e => {
-                            values.imagePreview = fr.result
-                            const response = await createProject(values, auth?.token, setAuth)
-                            const json = await response.json()
-                            if (response.ok) history.push(`/projects/${json.id}/`)
-                        }
-                    } catch (e) {
-                        console.error(e)
-                    } finally {
-                        setSubmitting(false)
-                    }
+                    setFetching(true)
+                    const response = await createProject(values, auth?.token, setAuth)
+                    const json = await response.json()
+                    if (response.ok) history.push(`/projects/${json.id}/`)
+                    setFetching(false)
                 }}
             >
                 {({isSubmitting, handleSubmit, setFieldValue}) => (
@@ -57,7 +49,8 @@ export default function CreateProject() {
 
                             <Card>
                                 <Card.Header>
-                                    <Accordion.Toggle as={Button} variant="link" eventKey="0">Basic information</Accordion.Toggle>
+                                    <Accordion.Toggle as={Button} variant="link" eventKey="0">Basic
+                                        information</Accordion.Toggle>
                                 </Card.Header>
                                 <Accordion.Collapse eventKey="0">
                                     <Card.Body>
@@ -70,7 +63,8 @@ export default function CreateProject() {
 
                             <Card>
                                 <Card.Header>
-                                    <Accordion.Toggle as={Button} variant="link" eventKey="1">Gallery Images</Accordion.Toggle>
+                                    <Accordion.Toggle as={Button} variant="link" eventKey="1">Gallery
+                                        Images</Accordion.Toggle>
                                 </Card.Header>
                                 <Accordion.Collapse eventKey="1">
                                     <Card.Body>
@@ -89,10 +83,12 @@ export default function CreateProject() {
                             </Card>
 
                         </Accordion>
-
-                        <Button type="submit"
-                                className="mt-2"
-                                disabled={isSubmitting || !auth?.token}>Create</Button>
+                        <div className="d-flex align-items-center">
+                            <Button type="submit"
+                                    className="mt-2"
+                                    disabled={fetching || !auth?.token}>Create</Button>
+                            {fetching && <Loading/>}
+                        </div>
                         {!auth?.token &&
                         <NavLink to="/login" className="ml-3">You must login to create project</NavLink>}
                     </Form>

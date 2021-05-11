@@ -21,14 +21,16 @@ class projectsController {
             const {id} = req.user
             const {name, money, video, description, date, bonuses, imagePreview, textPreview} = req.body
 
-            const response = await cloudinary.uploader.upload(imagePreview, {
-                    overwrite: true,
-                    invalidate: true,
-                    width: 810, height: 456, crop: "fill"
-                },
-                function (error) {
-                    console.error(error)
-                })
+            if(imagePreview) {
+                var response = await cloudinary.uploader.upload(imagePreview, {
+                        overwrite: true,
+                        invalidate: true,
+                        width: 810, height: 456, crop: "fill"
+                    },
+                    function (error) {
+                        console.error(error)
+                    })
+            }
 
             const news = new News([])
             await news.save()
@@ -37,7 +39,6 @@ class projectsController {
                 name,
                 bonuses,
                 video,
-                preview: response.url,
                 textPreview,
                 totalMoney: money,
                 money: 0,
@@ -46,7 +47,9 @@ class projectsController {
                 news,
                 id: await getNextSeqVal('projects')
             })
+            if(imagePreview) newProject.preview = response.url
             await newProject.save()
+
             const user = await User.findOne({id});
             user.projects.push(newProject._id)
             await user.save()

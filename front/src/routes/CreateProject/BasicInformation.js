@@ -3,8 +3,12 @@ import {ErrorMessage, Field} from "formik";
 import s from "./createProject.module.css";
 import FormFieldError from "../../utils/FormFieldError";
 import {Form} from 'react-bootstrap';
+import createProject from "../../http/createProject";
 
 const BasicInformation = ({setFieldValue}) => {
+    const fileInputRef = React.createRef()
+    const fileInputDropArea = React.createRef()
+    const [base64PreviewImage, setBase64PreviewImage] = useState('')
     return (
         <React.Fragment>
             <Field
@@ -80,20 +84,74 @@ const BasicInformation = ({setFieldValue}) => {
                 name="date"
                 className={"form-control mt-1 " + s.field}
             />
-            <div style={{width: '100%'}}>Chose image preview. Supported formats: png, jpg. Max size 5mb</div>
-            <input type="file"
-                   onChange={e => handleChange(e, setFieldValue)}
-                   className="mt-1"
-                   accept="image/*"
+
+            <div style={{width: '100%'}}>
+                <strong>Drop image here or click</strong><br/>
+                Supported formats: png, jpg.<br/> Max size 5mb
+            </div>
+            <label htmlFor={fileInputRef.current}
+                   className="dnd-area"
+                   ref={fileInputDropArea}
+                   onDragStart={e => {
+                       e.preventDefault()
+                       e.stopPropagation()
+                   }}
+                   onDragEnter={e => {
+                       e.preventDefault()
+                       e.stopPropagation()
+                       fileInputDropArea.current.classList.add('dnd-area__active');
+                   }}
+                   onDragLeave={e => {
+                       e.preventDefault()
+                       e.stopPropagation()
+                       fileInputDropArea.current.classList.remove('dnd-area__active');
+                   }}
+                   onDragOver={e => {
+                       e.preventDefault()
+                       e.stopPropagation()
+                   }}
+                   onDrop={e => {
+                       e.preventDefault()
+                       e.stopPropagation()
+                       setFileFieldValue(e.dataTransfer.files[0], setFieldValue)
+                       fileInputDropArea.current.classList.remove('dnd-area__active');
+                   }}>
+                <input type="file"
+                       onChange={e => handleChange(e, setFieldValue)}
+                       hidden
+                       accept="image/*"
+                       ref={fileInputRef}
+                />
+            </label>
+            <div className="d-flex flex-column align-items-center justify-content-start">
+                <strong>Preview</strong>
+            <img alt=""
+                 src={base64PreviewImage}
+                 height={228}
+                 width={405}
+                 className="dnd-img ml-2 mb-2"
             />
+            </div>
         </React.Fragment>
-    );
+    )
+
+    function handleChange(e, setFieldValue) {
+        console.log(e)
+        if (e.target?.files[0]?.size <= MAX_FILE_SIZE) setFileFieldValue(e.target.files[0], setFieldValue)
+        else return
+    }
+
+    function setFileFieldValue(file, setFieldValue) {
+        const fr = new FileReader();
+        fr.readAsDataURL(file)
+        fr.onloadend = e => {
+            setFieldValue('imagePreview', fr.result)
+            setBase64PreviewImage(fr.result)
+        }
+        fr.onerror = console.error
+    }
 }
 const MAX_FILE_SIZE = 5_000_000
-function handleChange(e, setFieldValue) {
-    window.file = e.target.files[0]
-    if(e.target.files[0].size > MAX_FILE_SIZE) return
-    setFieldValue('imagePreview', e.target.files[0])
-}
+
 
 export default BasicInformation;
