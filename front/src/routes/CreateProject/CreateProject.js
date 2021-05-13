@@ -24,15 +24,17 @@ export default function CreateProject() {
                     imagePreview: null,
                     textPreview: '',
                     images,
+                    category: '',
                     date: new Date()
                 }}
                 validate={values => {
                     const errors = {};
                     if (!values.name) errors.name = 'Required';
-                    if (!values.money) errors.money = 'Required'; else if (+values.money <= 0) errors.money = 'Must be positive'
+                    if (!values.money) errors.money = 'Required'; else if (+values.money <= 0) errors.money = 'Must be positive';
                     if (!values.video) errors.video = 'Required';
                     if (!values.description) errors.description = 'Required';
                     if (!values.textPreview) errors.textPreview = 'Required';
+                    if (!values.category || values.category === 'Select') errors.category = 'Required';
                     return errors;
                 }}
                 onSubmit={async (values, {setSubmitting}) => {

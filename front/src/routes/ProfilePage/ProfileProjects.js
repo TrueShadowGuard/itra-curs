@@ -44,7 +44,7 @@ const ProfileProjects = ({projects}) => {
                                          style={svgStyle}
                                          className="mr-1"
                                          onClick={editProject.bind(null, project)}/>
-                                    <NavLink to={`/projects/${project.id}/`}>{project.name}</NavLink>
+                                    <NavLink to={`/projects/${project.id}/comments`}>{project.name}</NavLink>
                                 </div>
                                 <img src={Delete}
                                      alt=""

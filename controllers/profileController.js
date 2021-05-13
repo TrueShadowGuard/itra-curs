@@ -19,9 +19,9 @@ class projectsController {
     async createProject(req, res) {
         try {
             const {id} = req.user
-            const {name, money, video, description, date, bonuses, imagePreview, textPreview} = req.body
+            const {name, category, money, video, description, date, bonuses, imagePreview, textPreview} = req.body
 
-            if(imagePreview) {
+            if (imagePreview) {
                 var response = await cloudinary.uploader.upload(imagePreview, {
                         overwrite: true,
                         invalidate: true,
@@ -37,6 +37,7 @@ class projectsController {
 
             const newProject = new Project({
                 name,
+                category,
                 bonuses,
                 video,
                 textPreview,
@@ -47,7 +48,7 @@ class projectsController {
                 news,
                 id: await getNextSeqVal('projects')
             })
-            if(imagePreview) newProject.preview = response.url
+            if (imagePreview) newProject.preview = response.url
             await newProject.save()
 
             const user = await User.findOne({id});

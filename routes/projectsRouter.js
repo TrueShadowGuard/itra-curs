@@ -5,7 +5,6 @@ const {check} = require("express-validator")
 const authMiddleware = require('../middlewaree/authMiddleware')
 
 router.get('/getProject/:id', controller.getProject)
-router.get('/getProjects/:q', controller.getProjects)
 router.get('/getProjects', controller.getProjects)
 router.post('/send-money/:id', authMiddleware, controller.sendMoney)
 router.post('/send-message/:id', authMiddleware, controller.sendMessage)

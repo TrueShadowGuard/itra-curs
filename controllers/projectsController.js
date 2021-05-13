@@ -4,20 +4,17 @@ const {EventEmitter} = require('events')
 
 const emitter = new EventEmitter()
 
+const MAX_COUNT_PER_PAGE = 8
+
 class projectsController {
     async getProjects(req, res) {
-        const q = req.params.q
-        console.log(q)
-        if(q === undefined) return res.json(await Project.find({}))
-        if(q.length < 3) return res.status(506).json({message: 'Server error'})
-        console.log(req.params)
-        const result = await Project.find({
-            name: {
-                $regex: new RegExp(req.params.q, 'gi')
-            }
-        })
-        console.log(result)
-        res.json(result)
+        console.log(req.query)
+        const {q, page = 0, count = MAX_COUNT_PER_PAGE} = req.query
+        if (q?.length < 3) return res.status(506).json({message: 'Server error'})
+        const filter = q === 'null' ? {} : {
+            name: {$regex: new RegExp(q, 'i')}
+        }
+        return res.json(await Project.find(filter).skip(page * count).limit(+count || MAX_COUNT_PER_PAGE))
     }
 
     async getProject(req, res) {
@@ -53,6 +50,7 @@ class projectsController {
             console.log(e)
         }
     }
+
     async sendMoney(req, res) {
         const amount = req.body.amount
         if (!amount || amount != +amount) return res.status(400).json({message: 'Invalid amount'})

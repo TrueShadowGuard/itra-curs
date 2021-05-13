@@ -4,13 +4,13 @@ import {NavLink} from "react-router-dom";
 export default function Links() {
     return (
         <div className="d-flex justify-content-between flex-wrap">
-            <NavLink exact to={'comments'} className="nav-link"
+            <NavLink to={'./comments'} className="nav-link"
                      activeStyle={{textDecoration: 'underline'}}>Comments</NavLink>
             <NavLink exact to={'./'} className="nav-link"
                      activeStyle={{textDecoration: 'underline'}}>Description</NavLink>
-            <NavLink exact to={'news'} className="nav-link"
+            <NavLink to={'./news'} className="nav-link"
                      activeStyle={{textDecoration: 'underline'}}>News</NavLink>
-            <NavLink exact to={'gallery'} className="nav-link"
+            <NavLink to={'./gallery'} className="nav-link"
                      activeStyle={{textDecoration: 'underline'}}>Gallery</NavLink>
         </div>
     );

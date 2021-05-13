@@ -1,23 +1,26 @@
-import React, {useContext, useState} from 'react'
+import React from 'react'
 import {Button, FormControl, FormGroup} from "react-bootstrap";
 import {useHistory} from "react-router";
-import {Auth} from "../App";
-import {createBrowserHistory} from "history";
+
 
 export default function SearchField() {
-    const [value, setValue] = useState('')
     const history = useHistory()
+    const input = React.createRef()
 
     return (
         <div className="d-flex">
             <Button variant="outline-light"
                     className="mr-2"
-            onClick={() => history && history.push(`/search?q=${value}`)}>
+                    onClick={handleSearch}>
                 Search
             </Button>
-            <FormControl value={value}
-                         onChange={e => setValue(e.target.value)}
-                         placeholder="Search for project"/>
+            <FormControl placeholder="Search for project" ref={input}/>
         </div>
     )
+
+    function handleSearch(e) {
+        const value = input.current.value
+        if(value.length < 3) return
+        history.push(`/?q=${value}&page=0&count=4`)
+    }
 }

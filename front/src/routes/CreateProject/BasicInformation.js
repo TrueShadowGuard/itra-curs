@@ -33,7 +33,6 @@ const BasicInformation = ({setFieldValue}) => {
             <Field
                 type="text"
                 className={"form-control mt-1 " + s.field}
-                id="exampleInputEmail1"
                 aria-describedby="emailHelp"
                 placeholder="Youtube video URL"
                 inputMode="url"
@@ -45,8 +44,8 @@ const BasicInformation = ({setFieldValue}) => {
             <Field
                 as="select"
                 className={"form-control mt-1 " + s.field}
-                id="exampleFormControlSelect1"
                 name="category">
+                <option>Select</option>
                 <option>Education</option>
                 <option>Culture</option>
                 <option>Science</option>

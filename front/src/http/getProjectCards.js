@@ -1,7 +1,7 @@
 export default async function getProjectCards(query) {
-    console.log('query', query)
+    const queryArray = Object.entries(query)
     try {
-        let response = await fetch(`/api/projects/getProjects${query === null || query === undefined ? '' : '/' + query}`)
+        let response = await fetch(`/api/projects/getProjects${query}`)
         console.log(response)
         if (!response.ok) return false
         return await response.json()

@@ -35,7 +35,8 @@ const DetailedProject = ({match}) => {
             creatingDate,
             endingDate,
             comments,
-            video
+            video,
+            category
         } = data;
     }
 
@@ -68,7 +69,7 @@ const DetailedProject = ({match}) => {
                     </Row>
                     <Row>
                         <Col>
-                            <NavLink to={'/'}>category</NavLink>
+                            <NavLink to={'/'}>{category}</NavLink>
                         </Col>
                     </Row>
                 </Col>

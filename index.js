@@ -34,6 +34,21 @@ const start = async () => {
             useUnifiedTopology: true
         })
 
+        // for (let i = 0; i < 30; i++) {
+        //     const newProject = new Project({
+        //         name: 'Test' + i,
+        //         category: 'Science',
+        //         bonuses: [],
+        //         video: 'https://www.youtube.com/watch?v=_B6N_7tF6MA',
+        //         textPreview: 'test',
+        //         totalMoney: 10,
+        //         money: 0,
+        //         description: 'test',
+        //         endingDate: new Date(),
+        //         news: [],
+        //         id: await getNextSeqVal('projects')
+        //     })
+        // }
         app.listen(PORT, () => console.log(`server started on port ${PORT}`))
     } catch
         (e) {

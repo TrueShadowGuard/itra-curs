@@ -49,8 +49,8 @@ export default function Comments(id, startComments) {
             console.log(e)
             setTimeout(500, () => updateComments())
         }
-    }, [])
-    return <div>
+    }, [comments])
+    return <div className="pb-5">
         {comments?.map(comment => <Comment comment={comment}/>)}
         <SendMessage id={id}/>
     </div>

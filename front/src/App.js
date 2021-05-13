@@ -34,8 +34,7 @@ function App() {
                     <Route path="/projects/:id" component={DetailedProject}/>
                     <Route path="/profiles/:id" component={ProfilePage}/>
                     <Route path="/create-project" component={CreateProject}/>
-                    <Route exact path="/" component={MainPage}/>
-                    <Route exact path="/:query" component={MainPage}/>
+                    <Route path="/" component={MainPage}/>
                     <Redirect to="/"/>
                 </Switch>
             </Auth.Provider>

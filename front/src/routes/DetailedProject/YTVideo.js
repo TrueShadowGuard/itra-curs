@@ -11,6 +11,6 @@ export default function YTVideo({videoId}) {
     return (
         <YouTube
             opts={opts}
-            videoId={videoId}/>
+            videoId={videoId.split('?v=')[1]}/>
     )
 }
