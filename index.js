@@ -13,6 +13,7 @@ const authRouter = require('./routes/authRouter')
 const projectsRouter = require('./routes/projectsRouter')
 const profileRouter = require('./routes/profileRouter')
 const getNextSeqVal = require('./utils/getNextSeqVal')
+const cloudinary = require('./config/cloudinary')
 
 const PORT = process.env.PORT || 3001
 const app = express()
@@ -33,7 +34,6 @@ const start = async () => {
             useNewUrlParser: true,
             useUnifiedTopology: true
         })
-
         // for (let i = 0; i < 30; i++) {
         //     const newProject = new Project({
         //         name: 'Test' + i,
@@ -48,6 +48,7 @@ const start = async () => {
         //         news: [],
         //         id: await getNextSeqVal('projects')
         //     })
+        //     await newProject.save()
         // }
         app.listen(PORT, () => console.log(`server started on port ${PORT}`))
     } catch

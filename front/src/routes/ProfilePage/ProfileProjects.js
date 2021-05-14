@@ -1,18 +1,22 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import {Button, Col, ProgressBar, Row, Table} from "react-bootstrap"
 import {NavLink} from "react-router-dom"
 import Edit from './edit.svg'
 import Delete from './delete.svg'
+import {Auth} from "../../App";
+import deleteProject from "../../http/deleteProject";
 
 const svgStyle = {
     cursor: 'pointer'
 }
 
-const ProfileProjects = ({projects}) => {
+const ProfileProjects = ({projects, isMyProfile}) => {
     const [table, setTable] = useState(projects)
     const [query, setQuery] = useState('')
     const [sortType, setSortType] = useState()
-    console.log('table', table, 'sortType', sortType)
+    const {auth} = useContext(Auth)
+
+
     return (
         <div>
             <h2>Projects:</h2>
@@ -31,12 +35,13 @@ const ProfileProjects = ({projects}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {projects
+                {table
                     .filter(project => project.name.toLowerCase().indexOf(query.toLowerCase()) > -1)
                     .map((project, i) =>
                         <tr key={i}>
                             <td className="d-flex justify-content-between">
                                 <div>
+                                    {isMyProfile &&
                                     <img src={Edit}
                                          alt=""
                                          width="20px"
@@ -44,15 +49,18 @@ const ProfileProjects = ({projects}) => {
                                          style={svgStyle}
                                          className="mr-1"
                                          onClick={editProject.bind(null, project)}/>
+                                    }
                                     <NavLink to={`/projects/${project.id}/comments`}>{project.name}</NavLink>
                                 </div>
+                                {isMyProfile &&
                                 <img src={Delete}
                                      alt=""
                                      width="30px"
                                      height="30px"
                                      style={svgStyle}
                                      className="mr-1"
-                                     onClick={editProject.bind(null, project)}/>
+                                     onClick={handleDelete.bind(null, project)}/>
+                                }
                             </td>
                             <td>
                                 <ProgressBar now={project.money / project.totalMoney * 100}/>
@@ -77,6 +85,18 @@ const ProfileProjects = ({projects}) => {
                 break;
         }
     }
+
+    function editProject() {
+
+    }
+
+    async function handleDelete(project) {
+        const answer = window.confirm('Are you sure you want to delete?')
+        if(answer) {
+            const response = await deleteProject(project.id, auth.token)
+            if(response.ok) setTable([...table].filter(p => p.id !== project.id))
+        }
+    }
 };
 
 function ascendingOrder(field, s1, s2) {
@@ -85,10 +105,6 @@ function ascendingOrder(field, s1, s2) {
 
 function descendingOrder(field, s1, s2) {
     return s1[field] < s2[field] ? -1 : -1
-}
-
-function editProject() {
-
 }
 
 

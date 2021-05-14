@@ -3,7 +3,7 @@ const {Schema, model, Types} = require('mongoose')
 
 const Project = new Schema({
     name: {type: String, required: true},
-    preview: {type: String, default: "https://lh3.googleusercontent.com/proxy/aucv1PWOW89hpJIhnFiRJ7l4xJkZg_DLBaSOlT82FJSUVrpIZqduZEMmhJ_CLSH8dAOd9e34M32buQwiGr3PiGmwQUjczuKuTZtNiDcrqwYJeKw"},
+    preview: {type: String, default: "https://res.cloudinary.com/dngrbvlvm/image/upload/v1621006137/hrnxe0tbi2cvehvkikan.png"},
     textPreview: {type: String, required: true},
     category: {type: String, required: true},
     bonuses: [{type: Types.ObjectId, ref: 'bonuses', required: true}],

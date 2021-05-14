@@ -1,4 +1,4 @@
-import checkIfAuthorized from "../utils/checkIfAuthorized";
+import checkIfAuthorized from "../utils/logoutIfUnauthtorized";
 
 export default async function createProject(body, Authorization, setAuth) {
     try {
@@ -10,7 +10,6 @@ export default async function createProject(body, Authorization, setAuth) {
             },
             body: JSON.stringify(body)
         });
-        console.log(response)
         checkIfAuthorized(response, setAuth)
         return response
     } catch (e) {

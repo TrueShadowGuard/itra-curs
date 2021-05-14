@@ -1,4 +1,5 @@
 const Project = require('../models/Project')
+const User = require('../models/User')
 const {Comment} = require('../models/Comments')
 const {EventEmitter} = require('events')
 
@@ -61,6 +62,18 @@ class projectsController {
         } catch (e) {
             res.status(500).json({message: 'Server error. Please try again later'})
         }
+    }
+
+    async deleteProject(req, res) {
+        const deletingProjectId = req.body.id
+        const user = await User.findOne({id: req.user.id}).populate('projects')
+        console.log('user:', user)
+        console.log('deleteProject', deletingProjectId)
+        if(user.projects.some(project => project.id === deletingProjectId)) {
+            await Project.deleteOne({id: deletingProjectId})
+            return res.status(200).json('Success')
+        }
+        return res.status(403)
     }
 }
 

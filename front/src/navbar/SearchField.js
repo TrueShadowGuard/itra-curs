@@ -14,7 +14,7 @@ export default function SearchField() {
                     onClick={handleSearch}>
                 Search
             </Button>
-            <FormControl placeholder="Search for project" ref={input}/>
+            <FormControl placeholder="Min length: 3" ref={input}/>
         </div>
     )
 

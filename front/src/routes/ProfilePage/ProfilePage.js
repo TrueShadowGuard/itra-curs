@@ -11,14 +11,15 @@ import {Auth} from "../../App";
 const ProfilePage = ({match}) => {
     const [profile, setProfile] = useState(undefined);
     const {auth, setAuth} = useContext(Auth)
-    console.log('auth', auth, 'match', match)
+    const isMyProfile = +auth?.id === +match.params.id
+
     useEffect(async () => setProfile(await getProfilePage(match.params.id)), []);
     return (profile === undefined ? <div className="d-flex justify-content-center mt-5"><Loading/></div> :
             profile === null ? <NotFound text="Profile"/> :
                 <div className="p-4">
                     <h1>{profile.name}</h1>
                     <hr/>
-                    {(+auth?.id === +match.params.id) &&
+                    {isMyProfile &&
                     <div className="d-flex justify-content-end">
                         <Button variant="outline-primary" onClick={logout.bind(null, setAuth)}>Logout</Button>
                     </div>}
@@ -28,8 +29,8 @@ const ProfilePage = ({match}) => {
                             profile?.bonuses?.map(bonus => <ProfileBonus bonus={bonus}/>)}
                     </div>
                     <hr className="mt-4"/>
-                    <ProfileProjects projects={profile?.projects}/>
-                    {(+auth?.id === +match.params.id) && <NavLink to="/create-project" className="btn btn-primary">Create Project</NavLink>}
+                    <ProfileProjects projects={profile.projects} isMyProfile={isMyProfile}/>
+                    {isMyProfile && <NavLink to="/create-project" className="btn btn-primary">Create Project</NavLink>}
                     <hr/>
                 </div>
     );

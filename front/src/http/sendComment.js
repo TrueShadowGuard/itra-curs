@@ -1,4 +1,4 @@
-import checkIfAuthorized from "../utils/checkIfAuthorized";
+import checkIfAuthorized from "../utils/logoutIfUnauthtorized";
 
 export default async function (projectId, message, setAuth) {
     const Authorization = localStorage.getItem('token')
