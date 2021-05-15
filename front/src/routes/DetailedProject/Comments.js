@@ -18,7 +18,7 @@ function SendMessage({id}) {
     return <div className="d-flex">
         <Button variant="outline-primary"
                 onClick={async () => {
-                    if(!value) return
+                    if (!value) return
                     setFetching(true)
                     await sendComment(id, value)
                     setValue('')
@@ -33,26 +33,28 @@ function SendMessage({id}) {
     </div>
 }
 
-export default function Comments(id, startComments) {
-    console.log('startComments', startComments)
-    const [comments, setComments] = useState(startComments);
+export default function Comments({id, initialComments}) {
 
-    useEffect(function updateComments() {
-        try {
-            getComments(id)
-                .then((response) => response.json())
-                .then(comments => {
-                    setComments(comments)
-                    setTimeout(500, () => updateComments())
-                })
-        } catch (e) {
-            console.log(e)
-            setTimeout(500, () => updateComments())
-        }
-    }, [comments])
+    const [comments, setComments] = useState(initialComments);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            updateComments()
+        },2000)
+    }, [])
+
     return <div className="pb-5">
         {comments?.map(comment => <Comment comment={comment}/>)}
         <SendMessage id={id}/>
     </div>
+
+    function updateComments() {
+        console.log('updateComments')
+        getComments(id)
+            .then(response => response.json())
+            .then(comments => {
+                setComments(comments)
+            })
+    }
 }
 

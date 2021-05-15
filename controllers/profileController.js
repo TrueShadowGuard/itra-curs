@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const mongodb = require('mongodb')
 const User = require('../models/User')
 const Project = require('../models/Project')
+const Bonus = require('../models/Bonus')
 const getNextSeqVal = require('../utils/getNextSeqVal')
 const {News} = require("../models/News")
 
@@ -35,10 +36,18 @@ class projectsController {
             const news = new News([])
             await news.save()
 
+            const mongoBonuses = []
+
+            for (const bonus of bonuses) {
+                const mongoBonus = new Bonus({...bonus })
+                await mongoBonus.save()
+                mongoBonuses.push(mongoBonus)
+            }
+
             const newProject = new Project({
                 name,
                 category,
-                bonuses,
+                bonuses: mongoBonuses,
                 video,
                 textPreview,
                 totalMoney: money,

@@ -1,7 +1,9 @@
 import checkIfAuthorized from "../utils/logoutIfUnauthtorized";
 
-export default async function (projectId, amount, setAuth) {
+export default async function (projectId, amount, bonusId, setAuth) {
     const Authorization = localStorage.getItem('token')
+    const body = (bonusId ? {amount, bonusId} : {amount})
+    body.amount = body.amount || 10
     try {
         const response = await fetch(`/api/projects/send-money/${projectId}`, {
             method: 'POST',
@@ -9,7 +11,7 @@ export default async function (projectId, amount, setAuth) {
                 Authorization,
                 'Content-Type': 'application/json;charset=utf-8',
             },
-            body: JSON.stringify({amount})
+            body: JSON.stringify(body)
         })
         checkIfAuthorized(response, setAuth)
         return response

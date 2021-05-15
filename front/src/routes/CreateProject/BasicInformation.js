@@ -2,13 +2,11 @@ import React, {useState} from 'react';
 import {ErrorMessage, Field} from "formik";
 import s from "./createProject.module.css";
 import FormFieldError from "../../utils/FormFieldError";
-import {Form} from 'react-bootstrap';
-import createProject from "../../http/createProject";
 
 const BasicInformation = ({setFieldValue}) => {
     const fileInputRef = React.createRef()
     const fileInputDropArea = React.createRef()
-    const [base64PreviewImage, setBase64PreviewImage] = useState('')
+    const [base64PreviewImage, setBase64PreviewImage] = useState('https://res.cloudinary.com/dngrbvlvm/image/upload/v1621006137/hrnxe0tbi2cvehvkikan.png')
     return (
         <React.Fragment>
             <Field
@@ -33,7 +31,6 @@ const BasicInformation = ({setFieldValue}) => {
             <Field
                 type="text"
                 className={"form-control mt-1 " + s.field}
-                aria-describedby="emailHelp"
                 placeholder="Youtube video URL"
                 inputMode="url"
                 name="video"
@@ -129,6 +126,7 @@ const BasicInformation = ({setFieldValue}) => {
                  height={228}
                  width={405}
                  className="dnd-img ml-2 mb-2"
+                 style={{border: '1px solid #ccc'}}
             />
             </div>
         </React.Fragment>
@@ -137,11 +135,10 @@ const BasicInformation = ({setFieldValue}) => {
     function handleChange(e, setFieldValue) {
         console.log(e)
         if (e.target?.files[0]?.size <= MAX_FILE_SIZE) setFileFieldValue(e.target.files[0], setFieldValue)
-        else return
     }
 
     function setFileFieldValue(file, setFieldValue) {
-        const fr = new FileReader();
+        const fr = new FileReader()
         fr.readAsDataURL(file)
         fr.onloadend = e => {
             setFieldValue('imagePreview', fr.result)
@@ -149,8 +146,9 @@ const BasicInformation = ({setFieldValue}) => {
         }
         fr.onerror = console.error
     }
-}
-const MAX_FILE_SIZE = 5_000_000
+};
+
+const MAX_FILE_SIZE = 5_000_000;
 
 
 export default BasicInformation;

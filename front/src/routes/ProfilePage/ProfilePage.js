@@ -23,8 +23,8 @@ const ProfilePage = ({match}) => {
                     <div className="d-flex justify-content-end">
                         <Button variant="outline-primary" onClick={logout.bind(null, setAuth)}>Logout</Button>
                     </div>}
-                    <div className="d-flex align-items-center flex-wrap">
-                        <h2>Bonuses:</h2>
+                    <h2>Bonuses:</h2>
+                    <div className="d-flex flex-wrap">
                         {profile.bonuses?.length === 0 ? <div className="ml-2">Don't have yet</div> :
                             profile?.bonuses?.map(bonus => <ProfileBonus bonus={bonus}/>)}
                     </div>

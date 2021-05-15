@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Button, Col, Row} from "react-bootstrap";
 import {NavLink} from "react-router-dom";
 import getDetailedProject from "../../http/getDetailedProject";
@@ -11,15 +11,17 @@ import {useHistory} from "react-router";
 import NotFound from "../../utils/NotFound";
 import Loading from "../../utils/Loading";
 import SupportProjectButton from "./SupportProjectButton";
+import sendMoney from "../../http/sendMoney";
+import {Auth} from "../../App";
 
 const DetailedProject = ({match}) => {
     const [data, setData] = useState(undefined);
     const history = useHistory()
-    console.log('Project data', data)
+    const {setAuth} = useContext(Auth)
 
-    useEffect(async () => {
-        const newData = await getDetailedProject(match.params.id);
-        setData(newData);
+    useEffect( () => {
+        getDetailedProject(match.params.id)
+            .then(setData)
     }, []);
 
     if (data === null) return <NotFound text="Project" />
@@ -39,11 +41,11 @@ const DetailedProject = ({match}) => {
             category
         } = data;
     }
-
+    console.log('initialComments', comments)
     return (
         data === undefined ?
         <div className="d-flex justify-content-center mt-5"><Loading/></div> :
-        <div className="container-fluid">
+        <div className="container-fluid pb-5">
             <h1 className="offset-1">{name}</h1>
             <Row>
                 <Col lg={6} className="offset-lg-1">
@@ -64,7 +66,7 @@ const DetailedProject = ({match}) => {
                     <Row className="mt-2">
                         <Col lg={12} className="d-flex justify-content-center">
                             <SupportProjectButton projectId={id}
-                                                  addMoney={(amount) => setData({...data, money: data.money + amount})}/>
+                                                  addMoney={addMoney}/>
                         </Col>
                     </Row>
                     <Row>
@@ -85,15 +87,22 @@ const DetailedProject = ({match}) => {
                 <Col lg={6} className="offset-lg-1">
                     <Routes id={match.params.id}
                             description={description}
-                            comments={comments}
+                            initialComments={comments}
                             />
                 </Col>
                 <Col lg={3}>
-                    <Bonuses bonuses={bonuses} className="p-3"/>
+                    <Bonuses bonuses={bonuses} className="p-3" sendMoney={async (amount, bonusId) => {
+                        const response = await sendMoney(id, amount, bonusId, setAuth)
+                        if(response.ok) addMoney(amount)
+                    }}/>
                 </Col>
             </Row>
         </div>
     );
+
+    function addMoney(amount) {
+        setData({...data, money: data.money + amount})
+    }
 };
 
 export default DetailedProject;
