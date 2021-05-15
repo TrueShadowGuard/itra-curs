@@ -120,7 +120,7 @@ const BasicInformation = ({setFieldValue}) => {
                 />
             </label>
             <div className="d-flex flex-column align-items-center justify-content-start">
-                <strong>Preview</strong>
+                <h1>Preview</h1>
             <img alt=""
                  src={base64PreviewImage}
                  height={228}

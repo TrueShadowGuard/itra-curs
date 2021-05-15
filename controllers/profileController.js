@@ -20,26 +20,23 @@ class projectsController {
     async createProject(req, res) {
         try {
             const {id} = req.user
-            const {name, category, money, video, description, date, bonuses, imagePreview, textPreview} = req.body
+            const {name, category, money, video, description, date, bonuses, imagePreview, textPreview, images} = req.body
 
             if (imagePreview) {
-                var response = await cloudinary.uploader.upload(imagePreview, {
-                        overwrite: true,
-                        invalidate: true,
-                        width: 810, height: 456, crop: "fill"
-                    },
-                    function (error) {
-                        console.error(error)
-                    })
+                var response = await uploadToCloudinary(imagePreview)
             }
-
+            const imageURLs = []
+            for(let image of images) {
+                imageURLs.push(await uploadToCloudinary(image))
+            }
+            console.log('imageURLs', imageURLs)
             const news = new News([])
             await news.save()
 
             const mongoBonuses = []
 
             for (const bonus of bonuses) {
-                const mongoBonus = new Bonus({...bonus })
+                const mongoBonus = new Bonus({...bonus})
                 await mongoBonus.save()
                 mongoBonuses.push(mongoBonus)
             }
@@ -54,10 +51,12 @@ class projectsController {
                 money: 0,
                 description,
                 endingDate: date,
+                images: imageURLs,
                 news,
                 id: await getNextSeqVal('projects')
             })
-            if (imagePreview) newProject.preview = response.url
+
+            if (imagePreview) newProject.preview = response
             await newProject.save()
 
             const user = await User.findOne({id});
@@ -69,6 +68,18 @@ class projectsController {
             res.status(500).json({message: 'Server error'})
         }
     }
+}
+
+async function uploadToCloudinary(image) {
+    const res = await cloudinary.uploader.upload(image, {
+            overwrite: true,
+            invalidate: true,
+            width: 810, height: 456, crop: "fill"
+        },
+        function (error) {
+            console.error(error)
+        })
+    return res.url
 }
 
 module.exports = new projectsController()

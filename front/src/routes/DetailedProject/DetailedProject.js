@@ -29,6 +29,7 @@ const DetailedProject = ({match}) => {
         var {
             name,
             bonuses,
+            images,
             money,
             totalMoney,
             description,
@@ -88,6 +89,7 @@ const DetailedProject = ({match}) => {
                     <Routes id={match.params.id}
                             description={description}
                             initialComments={comments}
+                            images={images}
                             />
                 </Col>
                 <Col lg={3}>

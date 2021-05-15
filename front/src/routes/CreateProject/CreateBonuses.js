@@ -4,7 +4,7 @@ import {ErrorMessage, Formik} from "formik";
 import createProject from "../../http/createProject";
 import FormFieldError from "../../utils/FormFieldError";
 
-export default function Bonuses({setFieldValue, bonuses}) {
+export default function CreateBonuses({setFieldValue, bonuses}) {
     const
         inputBonusName = createRef(),
         inputBonusDescription = createRef(),

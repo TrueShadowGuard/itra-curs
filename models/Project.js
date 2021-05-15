@@ -12,6 +12,7 @@ const Project = new Schema({
     money: {type: Number, required: true},
     description: {type: String, required: true},
     news: [{type: Types.ObjectId, ref: 'news', required: true}],
+    images: [{type: String, required: true}],
     comments: [{type: Types.ObjectId, ref: 'comments'}],
     id: {type: Number, required: true},
     creatingDate: {type: Date, default: new Date},

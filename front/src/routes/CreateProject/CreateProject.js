@@ -7,11 +7,11 @@ import {Auth} from "../../App";
 import {useHistory} from "react-router";
 import {NavLink} from "react-router-dom";
 import Loading from "../../utils/Loading";
-import Bonuses from "./Bonuses";
+import CreateBonuses from "./CreateBonuses";
+import CreateGallery from "./CreateGallery";
 
 export default function CreateProject() {
     const {auth, setAuth} = useContext(Auth)
-    const [images, setImages] = useState([])
     const [fetching, setFetching] = useState(false)
     const history = useHistory()
     return (
@@ -24,9 +24,9 @@ export default function CreateProject() {
                     description: '',
                     imagePreview: null,
                     textPreview: '',
-                    images,
+                    images: [],
                     bonuses: [],
-                    category: '',
+                    category: null,
                     date: new Date()
                 }}
                 validate={values => {
@@ -75,6 +75,7 @@ export default function CreateProject() {
                                 </Card.Header>
                                 <Accordion.Collapse eventKey="1">
                                     <Card.Body>
+                                        <CreateGallery setFieldValue={setFieldValue} images={values.images}/>
                                     </Card.Body>
                                 </Accordion.Collapse>
                             </Card>
@@ -85,7 +86,7 @@ export default function CreateProject() {
                                 </Card.Header>
                                 <Accordion.Collapse eventKey="2">
                                     <Card.Body>
-                                        <Bonuses setFieldValue={setFieldValue} bonuses={values.bonuses}/>
+                                        <CreateBonuses setFieldValue={setFieldValue} bonuses={values.bonuses}/>
                                     </Card.Body>
                                 </Accordion.Collapse>
                             </Card>
