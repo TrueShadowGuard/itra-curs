@@ -42,7 +42,6 @@ const DetailedProject = ({match}) => {
             category
         } = data;
     }
-    console.log('initialComments', comments)
     return (
         data === undefined ?
         <div className="d-flex justify-content-center mt-5"><Loading/></div> :

@@ -40,7 +40,6 @@ class projectsController {
             for (let image of images) {
                 imageURLs.push(await uploadToCloudinary(image))
             }
-            console.log('imageURLs', imageURLs)
             const news = new News([])
             await news.save()
 
@@ -116,7 +115,6 @@ class projectsController {
 
             for (const bonus of bonuses) {
                 const mongoBonus = new Bonus({...bonus})
-                console.log('mongoBonus', mongoBonus)
                 const candidate = await Bonus.findOne({_id: mongoBonus._id})
                 if(candidate) {
                     mongoBonuses.push(candidate)

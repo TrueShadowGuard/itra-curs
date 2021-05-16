@@ -6,11 +6,11 @@ import s from './loginPage.module.css';
 import {login} from '../../http/auth';
 import {NavLink} from "react-router-dom";
 import {Auth} from "../../App";
-import FormFieldError from "../../utils/FormFieldError";
+import FormFieldError from "../../utils/FormFieldError/FormFieldError";
 import {useHistory} from "react-router";
 
 const LoginPage = () => {
-    const {auth, setAuth} = useContext(Auth)
+    const {setAuth} = useContext(Auth)
     const history = useHistory()
     return (
         <div>

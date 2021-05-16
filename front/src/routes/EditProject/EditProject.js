@@ -5,12 +5,12 @@ import Loading from "../../utils/Loading";
 import editProject from "../../http/editProject";
 
 export default function ({match}) {
-    const projectId = match.params.id
-    const [values, setValues] = useState(undefined)
+    const projectId = match.params.id;
+    const [values, setValues] = useState(undefined);
 
     useEffect(() => {
         getDetailedProject(projectId).then(vals => {
-            setValues({...vals, money: vals.totalMoney})
+            setValues({...vals, money: vals.totalMoney});
         })
     }, [])
 

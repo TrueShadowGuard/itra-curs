@@ -13,8 +13,8 @@ export default function Bonuses({bonuses, sendMoney}) {
                     <strong>{money}у.е.</strong>
                     <Button disabled={fetching}
                             onClick={() => {
-                                setFetching(true)
-                                sendMoney(money, _id).finally(setFetching.bind(null, false))
+                                setFetching(true);
+                                sendMoney(money, _id).finally(setFetching.bind(null, false));
                             }}>Support project</Button>
                 </Card>
             )

@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Formik, Form, Field, ErrorMessage} from 'formik';
+import {Formik, Form} from 'formik';
 import {Button, Card, Accordion} from "react-bootstrap";
 import BasicInformation from "./BasicInformation";
 import createProject from "../../http/createProject";
@@ -11,27 +11,26 @@ import CreateBonuses from "./CreateBonuses";
 import CreateGallery from "./CreateGallery";
 
 export default function CreateOrEditProject({initialValues, editProject}) {
-    const {auth, setAuth} = useContext(Auth)
-    const [fetching, setFetching] = useState(false)
-    const history = useHistory()
+    const {auth, setAuth} = useContext(Auth);
+    const [fetching, setFetching] = useState(false);
+    const history = useHistory();
     return (
         <div>
             <Formik
                 initialValues={initialValues ||
                 {
                     name: '',
-                    money: null,
+                    money: '',
                     video: '',
                     description: '',
-                    imagePreview: null,
+                    imagePreview: '',
                     textPreview: '',
                     images: [],
                     bonuses: [],
-                    category: null,
+                    category: '',
                     date: new Date()
                 }}
                 validate={values => {
-                    console.log(values)
                     const errors = {};
                     if (!values.name) errors.name = 'Required';
                     if (!values.money) errors.money = 'Required'; else if (+values.money <= 0) errors.money = 'Must be positive';
@@ -43,7 +42,6 @@ export default function CreateOrEditProject({initialValues, editProject}) {
                 }}
                 onSubmit={async (values, {setSubmitting}) => {
                     setFetching(true)
-                    console.log(JSON.stringify(values))
                     try {
                         const response = initialValues ?
                             await editProject(values, auth?.token, setAuth) :

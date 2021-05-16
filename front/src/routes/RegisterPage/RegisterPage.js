@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {ErrorMessage, Formik, Field} from 'formik';
 import {Button, Col, Form, Row} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -6,12 +6,10 @@ import s from './registerPage.module.css';
 import {register} from '../../http/auth';
 import {NavLink} from "react-router-dom";
 import {useHistory} from "react-router";
-import {Auth} from "../../App";
-import FormFieldError from "../../utils/FormFieldError";
+import FormFieldError from "../../utils/FormFieldError/FormFieldError";
 
 const RegisterPage = () => {
     const history = useHistory();
-    const {auth, setAuth} = useContext(Auth)
     return (
         <div>
             <Formik
@@ -28,7 +26,6 @@ const RegisterPage = () => {
                 }}
                 onSubmit={async (values, {setSubmitting, setErrors}) => {
                     let response = await register(values)
-                    console.log(response)
 
                     if (response.ok) {
                         history.push('/login')

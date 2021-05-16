@@ -1,26 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import './mainPage.module.css';
+import {useHistory} from "react-router";
 import {Button, Col, Row} from "react-bootstrap";
+import './mainPage.module.css';
 import ProjectCard from "../../projectCard/ProjectCard";
 import getProjectCards from "../../http/getProjectCards";
 import ServerError from "../../utils/ServerError";
 import Loading from "../../utils/Loading";
 import getQueryObject from "../../utils/getQueryObject";
-import {useHistory} from "react-router";
 import getQueryStringFromObject from "../../utils/getQueryStringFromObject";
 
-let col = {
-    display: 'flex',
-    justifyContent: 'center'
-}
-const MainPage = ({match}) => {
-    const [data, setData] = useState(undefined)
-    const history = useHistory()
-    const queryObject = getQueryObject()
+const MainPage = () => {
+    const [data, setData] = useState(undefined);
+    const history = useHistory();
 
-
-    console.log('query object', queryObject)
-    if (!queryObject.page || !queryObject.count) history.push('/?page=0&count=4')
+    const queryObject = getQueryObject();
+    if (!queryObject.page || !queryObject.count) history.push('/?page=0&count=4');
 
     useEffect(() => {
         getProjectCards(window.location.search).then(setData);
@@ -30,13 +24,19 @@ const MainPage = ({match}) => {
         <div className="container-fluid">
             {data === undefined ? <Col className="d-flex justify-content-center mt-5"><Loading/></Col> :
                 data === false ? <ServerError/> :
-                    <div>
-                        {queryObject.q && <div>Results for search: {queryObject.q}</div>}
+                    <div className="mt-1">
+                        {queryObject.q &&
+                        <div>
+                            Results for search: {queryObject.q}
+                            <Button variant="outline-primary"
+                                    onClick={resetQuery}
+                                    className="ml-1">Clear</Button>
+                        </div>}
                         <Row>
                             {data.map(cardData =>
-                            <Col lg={3} md={6}>
-                                <ProjectCard card={cardData}/>
-                            </Col>)}
+                                <Col lg={3} md={6} key={cardData.id}>
+                                    <ProjectCard card={cardData}/>
+                                </Col>)}
                         </Row>
                         <Row>
                             <Col className="mt-2">
@@ -47,16 +47,22 @@ const MainPage = ({match}) => {
                     </div>}
         </div>
     );
+
     function goToNextPage() {
         const newQueryObject = ({...queryObject})
         newQueryObject.page = +newQueryObject.page + 1
         history.push(getQueryStringFromObject(newQueryObject))
     }
+
     function goToPrevPage() {
-        if(+queryObject.page === 0) return;
+        if (+queryObject.page === 0) return;
         const newQueryObject = ({...queryObject})
         newQueryObject.page = +newQueryObject.page - 1
         history.push(getQueryStringFromObject(newQueryObject))
+    }
+
+    function resetQuery() {
+        history.push('/?page=0&count=4');
     }
 };
 

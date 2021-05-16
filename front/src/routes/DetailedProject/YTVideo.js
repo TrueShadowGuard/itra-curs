@@ -9,7 +9,6 @@ const opts = {
 
 export default function YTVideo({videoId}) {
     const video = videoId?.match(/^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/)
-    console.log('youtube', video, videoId)
     return (
         <YouTube
             opts={opts}

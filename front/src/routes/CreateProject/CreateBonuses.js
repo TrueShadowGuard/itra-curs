@@ -2,8 +2,9 @@ import {Button, Card} from "react-bootstrap";
 import React, {createRef, useState} from "react";
 import {ErrorMessage, Formik} from "formik";
 import createProject from "../../http/createProject";
-import FormFieldError from "../../utils/FormFieldError";
+import FormFieldError from "../../utils/FormFieldError/FormFieldError";
 
+const MAX_FILE_SIZE_IN_MB = 5;
 export default function CreateBonuses({setFieldValue, bonuses}) {
     const
         inputBonusName = createRef(),
@@ -23,14 +24,10 @@ export default function CreateBonuses({setFieldValue, bonuses}) {
             }}
             validate={values => {
                 const errors = {};
-
                 if (!values.name) errors.name = 'Required'
                 if (!values.description) errors.description = 'Required'
                 if (!values.money) errors.money = 'Required'
                 if (!values.image) errors.image = 'Required'
-
-                console.log('validate', )
-
                 return errors;
             }}
             onSubmit={null}>
@@ -116,8 +113,7 @@ export default function CreateBonuses({setFieldValue, bonuses}) {
     }
 
     function handleChange(e) {
-        console.log(e)
-        if (e.target?.files[0]?.size <= 5_000_000) encodeFileToBase64AndSetState(e.target?.files[0])
+        if (e.target?.files[0]?.size <= MAX_FILE_SIZE_IN_MB * 1_000_000) encodeFileToBase64AndSetState(e.target?.files[0])
     }
 
     function encodeFileToBase64AndSetState(file) {

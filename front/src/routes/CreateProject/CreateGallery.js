@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
-import {ErrorMessage, Field} from "formik";
-import s from "./createProject.module.css";
-import FormFieldError from "../../utils/FormFieldError";
+import React from 'react';
 import Gallery from "../DetailedProject/Gallery";
+
+const MAX_FILE_SIZE_IN_MB = 5
 
 const CreateGallery = ({images, setFieldValue}) => {
     const fileInputRef = React.createRef()
@@ -14,7 +13,7 @@ const CreateGallery = ({images, setFieldValue}) => {
                     <div>
                         <strong>Drop images here or click</strong><br/>
                         Supported formats: png, jpg.<br/>
-                        Max file size 5mb<br/>
+                        Max file size {MAX_FILE_SIZE_IN_MB}mb<br/>
                     </div>
                     <label htmlFor={fileInputRef.current}
                            className="dnd-area"
@@ -59,22 +58,20 @@ const CreateGallery = ({images, setFieldValue}) => {
     )
 
     function handleChange(e) {
-        console.log('change')
         encodeImageToBase64(e.target.files[0])
-            .then(base64Image => setFieldValue('images', [...images, base64Image]))
+            .then(base64Image => setFieldValue('images', [...images, base64Image]));
     }
 
     function encodeImageToBase64(image) {
+        if(image.size > MAX_FILE_SIZE_IN_MB * 1_000_000) return;
         return new Promise((resolve, reject) => {
-            const fr = new FileReader()
-            fr.readAsDataURL(image)
-            fr.onloadend = () => resolve(fr.result)
-            fr.onerror = () => reject('Something went wrong encoding file to base64')
+            const fr = new FileReader();
+            fr.readAsDataURL(image);
+            fr.onloadend = () => resolve(fr.result);
+            fr.onerror = () => reject('Something went wrong encoding file to base64');
         })
     }
 };
-
-const MAX_FILE_SIZE = 5_000_000;
 
 
 export default CreateGallery;

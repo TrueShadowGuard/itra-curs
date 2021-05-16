@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {ErrorMessage, Field} from "formik";
 import s from "./createProject.module.css";
-import FormFieldError from "../../utils/FormFieldError";
+import FormFieldError from "../../utils/FormFieldError/FormFieldError";
 
 const BasicInformation = ({setFieldValue}) => {
     const fileInputRef = React.createRef()
@@ -133,7 +133,6 @@ const BasicInformation = ({setFieldValue}) => {
     )
 
     function handleChange(e, setFieldValue) {
-        console.log(e)
         if (e.target?.files[0]?.size <= MAX_FILE_SIZE) setFileFieldValue(e.target.files[0], setFieldValue)
     }
 

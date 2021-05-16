@@ -10,7 +10,6 @@ const MAX_COUNT_PER_PAGE = 8
 
 class projectsController {
     async getProjects(req, res) {
-        console.log(req.query)
         const {q, page = 0, count = MAX_COUNT_PER_PAGE} = req.query
         if (q?.length < 3) return res.status(506).json({message: 'Server error'})
         const filter = q === 'null' ? {} : {
@@ -53,11 +52,9 @@ class projectsController {
     async sendMoney(req, res) {
         const {amount, bonusId} = req.body
         let user = req.user
-        console.log('amount: ', amount)
         if (!amount || amount != +amount) return res.status(400).json({message: 'Invalid amount'})
         try {
             const project = await Project.findOne({id: req.params.id})
-            console.log('project', project)
             project.money += +amount
             await project.save()
             if (bonusId) {
@@ -75,8 +72,6 @@ class projectsController {
     async deleteProject(req, res) {
         const deletingProjectId = req.body.id
         const user = await User.findOne({id: req.user.id}).populate('projects')
-        console.log('user:', user)
-        console.log('deleteProject', deletingProjectId)
         if (user.projects.some(project => project.id === deletingProjectId)) {
             await Project.deleteOne({id: deletingProjectId})
             return res.status(200).json('Success')

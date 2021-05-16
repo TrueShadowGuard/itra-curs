@@ -5,7 +5,6 @@ const carouselStyle = {
     overflow: 'hidden'
 }
 export default function Gallery({images}) {
-    console.log('Inside Gallery', images)
     return <Carousel fade style={{maxWidth: 400}}>
         {images?.map(image => (
             <Carousel.Item>

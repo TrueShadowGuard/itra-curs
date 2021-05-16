@@ -49,7 +49,6 @@ export default function Comments({id, initialComments}) {
     </div>
 
     function updateComments() {
-        console.log('updateComments')
         getComments(id)
             .then(response => response.json())
             .then(comments => {

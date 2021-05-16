@@ -1,5 +1,4 @@
 export default async function (projectId, Authorization) {
-    console.log('deletingProjectId', projectId, Authorization)
     try {
         return await fetch(`/api/projects/delete-project`, {
             method: 'DELETE',

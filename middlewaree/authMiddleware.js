@@ -14,8 +14,6 @@ module.exports = function (req, res, next) {
         }
         const decodedData = jwt.verify(token, secret)
 
-        console.log(decodedData)
-
         User.findOne({id: decodedData.id, banned: true}).then(banned => {
             if(banned) return res.status(400).json({message: 'Unauthorized'})
             req.user = decodedData
