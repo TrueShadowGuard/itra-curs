@@ -59,7 +59,7 @@ export default function CreateBonuses({setFieldValue, bonuses}) {
                         </div>
                     </div>
                     <div className="d-flex">
-                        {bonuses.map(bonus => <Bonus {...bonus} />)}
+                        {bonuses?.map(bonus => <Bonus {...bonus} />)}
                     </div>
                 </div>
             )}

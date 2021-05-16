@@ -47,7 +47,7 @@ const DetailedProject = ({match}) => {
         data === undefined ?
         <div className="d-flex justify-content-center mt-5"><Loading/></div> :
         <div className="container-fluid pb-5">
-            <h1 className="offset-1">{name}</h1>
+            <h1 className="offset-lg-1">{name}</h1>
             <Row>
                 <Col lg={6} className="offset-lg-1">
                     <YTVideo videoId={video}/>

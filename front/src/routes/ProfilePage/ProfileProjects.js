@@ -42,13 +42,15 @@ const ProfileProjects = ({projects, isMyProfile}) => {
                             <td className="d-flex justify-content-between">
                                 <div>
                                     {isMyProfile &&
-                                    <img src={Edit}
-                                         alt=""
-                                         width="20px"
-                                         height="20px"
-                                         style={svgStyle}
-                                         className="mr-1"
-                                         onClick={editProject.bind(null, project)}/>
+                                    <NavLink to={`/edit-project/${project.id}`}>
+                                        <img src={Edit}
+                                             alt=""
+                                             width="20px"
+                                             height="20px"
+                                             style={svgStyle}
+                                             className="mr-1"
+                                        />
+                                    </NavLink>
                                     }
                                     <NavLink to={`/projects/${project.id}/comments`}>{project.name}</NavLink>
                                 </div>
@@ -58,8 +60,9 @@ const ProfileProjects = ({projects, isMyProfile}) => {
                                      width="30px"
                                      height="30px"
                                      style={svgStyle}
+                                     onClick={handleDelete.bind(null, project)}
                                      className="mr-1"
-                                     onClick={handleDelete.bind(null, project)}/>
+                                />
                                 }
                             </td>
                             <td>
@@ -86,15 +89,11 @@ const ProfileProjects = ({projects, isMyProfile}) => {
         }
     }
 
-    function editProject() {
-
-    }
-
     async function handleDelete(project) {
         const answer = window.confirm('Are you sure you want to delete?')
-        if(answer) {
+        if (answer) {
             const response = await deleteProject(project.id, auth.token)
-            if(response.ok) setTable([...table].filter(p => p.id !== project.id))
+            if (response.ok) setTable([...table].filter(p => p.id !== project.id))
         }
     }
 };

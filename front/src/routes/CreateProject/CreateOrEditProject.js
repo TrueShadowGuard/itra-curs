@@ -10,14 +10,15 @@ import Loading from "../../utils/Loading";
 import CreateBonuses from "./CreateBonuses";
 import CreateGallery from "./CreateGallery";
 
-export default function CreateProject() {
+export default function CreateOrEditProject({initialValues, editProject}) {
     const {auth, setAuth} = useContext(Auth)
     const [fetching, setFetching] = useState(false)
     const history = useHistory()
     return (
         <div>
             <Formik
-                initialValues={{
+                initialValues={initialValues ||
+                {
                     name: '',
                     money: null,
                     video: '',
@@ -42,12 +43,16 @@ export default function CreateProject() {
                 }}
                 onSubmit={async (values, {setSubmitting}) => {
                     setFetching(true)
-                    values.video = values.video.match(/^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/)[2]
-                    console.log('values', values)
-                    const response = await createProject(values, auth?.token, setAuth)
-                    const json = await response.json()
-                    if (response.ok) history.push(`/projects/${json.id}/`)
-                    setFetching(false)
+                    console.log(JSON.stringify(values))
+                    try {
+                        const response = initialValues ?
+                            await editProject(values, auth?.token, setAuth) :
+                            await createProject(values, auth?.token, setAuth)
+                        const json = await response.json()
+                        if (response.ok) history.push(`/projects/${json.id}/`)
+                    } finally {
+                        setFetching(false)
+                    }
                 }}
             >
                 {({isSubmitting, handleSubmit, setFieldValue, values}) => (
@@ -95,7 +100,7 @@ export default function CreateProject() {
                         <div className="d-flex align-items-center">
                             <Button type="submit"
                                     className="mt-2"
-                                    disabled={fetching || !auth?.token}>Create</Button>
+                                    disabled={fetching || !auth?.token}>{initialValues ? 'Save' : 'Create'}</Button>
                             {fetching && <Loading/>}
                         </div>
                         {!auth?.token &&

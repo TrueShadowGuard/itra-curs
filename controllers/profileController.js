@@ -20,13 +20,24 @@ class projectsController {
     async createProject(req, res) {
         try {
             const {id} = req.user
-            const {name, category, money, video, description, date, bonuses, imagePreview, textPreview, images} = req.body
+            const {
+                name,
+                category,
+                money,
+                video,
+                description,
+                date,
+                bonuses,
+                imagePreview,
+                textPreview,
+                images
+            } = req.body
 
             if (imagePreview) {
                 var response = await uploadToCloudinary(imagePreview)
             }
             const imageURLs = []
-            for(let image of images) {
+            for (let image of images) {
                 imageURLs.push(await uploadToCloudinary(image))
             }
             console.log('imageURLs', imageURLs)
@@ -66,6 +77,75 @@ class projectsController {
         } catch (e) {
             console.log(e)
             res.status(500).json({message: 'Server error'})
+        }
+    }
+
+    async editProject(req, res) {
+        const {values, id} = req.body
+
+        try {
+            const user = await User.findOne({id: req.user.id}).populate('projects')
+            const project = user.projects.some(project => project.id === +id)
+            if (!project) return res.status(406).json({message: 'Failed'})
+
+            const {
+                name,
+                category,
+                totalMoney,
+                video,
+                description,
+                endingDate,
+                bonuses,
+                imagePreview,
+                textPreview,
+                images
+            } = values
+
+            if (imagePreview) {
+                var preview = await uploadToCloudinary(imagePreview)
+            }
+            const imageURLs = []
+            for (let image of images) {
+                imageURLs.push(await uploadToCloudinary(image))
+            }
+
+            const news = new News([])
+            await news.save()
+
+            const mongoBonuses = []
+
+            for (const bonus of bonuses) {
+                const mongoBonus = new Bonus({...bonus})
+                console.log('mongoBonus', mongoBonus)
+                const candidate = await Bonus.findOne({_id: mongoBonus._id})
+                if(candidate) {
+                    mongoBonuses.push(candidate)
+                } else {
+                    await mongoBonus.save()
+                    mongoBonuses.push(mongoBonus)
+                }
+            }
+
+            const newProject = {
+                name,
+                category,
+                bonuses: mongoBonuses,
+                video,
+                textPreview,
+                totalMoney: totalMoney,
+                description,
+                endingDate,
+                images: imageURLs,
+                news,
+            }
+
+            if (imagePreview) newProject.preview = preview
+
+            await Project.findOneAndUpdate({id}, newProject)
+            return res.status(200).json({id})
+        } catch (e) {
+            console.error(e)
+            return res.status(500)
         }
     }
 }
