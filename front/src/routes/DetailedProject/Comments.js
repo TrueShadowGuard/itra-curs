@@ -33,14 +33,15 @@ function SendMessage({id}) {
     </div>
 }
 
-export default function Comments({id, initialComments}) {
+export default function Comments({id, objectWithComments}) {
 
-    const [comments, setComments] = useState(initialComments);
+    const [comments, setComments] = useState(objectWithComments.comments);
 
     useEffect(() => {
         const interval = setInterval(() => {
             updateComments()
         },2000)
+        return clearInterval.bind(null, interval)
     }, [])
 
     return <div className="pb-5">
@@ -53,6 +54,7 @@ export default function Comments({id, initialComments}) {
             .then(response => response.json())
             .then(comments => {
                 setComments(comments)
+                objectWithComments.comments = [...comments]
             })
     }
 }

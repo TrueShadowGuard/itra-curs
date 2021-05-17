@@ -19,7 +19,7 @@ export default function CreateBonuses({setFieldValue, bonuses}) {
             initialValues={{
                 name: '',
                 description: '',
-                money: null,
+                money: '',
                 image: ''
             }}
             validate={values => {
@@ -55,7 +55,7 @@ export default function CreateBonuses({setFieldValue, bonuses}) {
                             <Button onClick={() => setFieldValue('bonuses', [])} className="ml-2">Clear bonuses</Button>
                         </div>
                     </div>
-                    <div className="d-flex">
+                    <div className="d-flex flex-wrap">
                         {bonuses?.map(bonus => <Bonus {...bonus} />)}
                     </div>
                 </div>
@@ -128,7 +128,7 @@ export default function CreateBonuses({setFieldValue, bonuses}) {
 
 const Bonus = ({name, description, money, image}) => {
     return (
-        <Card className="p-3 ml-2" style={{width: 200}}>
+        <Card className="p-3 m-2" style={{width: 300}}>
             <h1>{name}</h1>
             <img src={image} alt=""/>
             <p style={{textAlign: 'start'}}>{description}</p>
